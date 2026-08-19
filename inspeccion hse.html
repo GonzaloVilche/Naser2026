@@ -10,9 +10,10 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Naser | Auditoría</title>
+    <title>Naser | Inspección HSE</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="inspeccion hse.css">
+    <link rel="stylesheet" href="style2.css">
 
 </head>
 
@@ -23,8 +24,9 @@
 <header class="navbar">
 
     <div class="logo">
-        NASER<span>.</span>
+        NASER
     </div>
+
 
     <nav>
 
@@ -32,27 +34,12 @@
             Inicio
         </a>
 
-        <a href="index.html#nosotros">
-            Nosotros
-        </a>
-
-        <a href="index.html#servicios">
-            Servicios
-        </a>
-
-        <a href="index.html#proyectos">
-            Operaciones
-        </a>
-
-        <a href="auditoria.html">
-            Auditoría
-        </a>
-
-        <a href="index.html#contacto">
-            Contacto
+        <a href="inspeccion hse.html" class="active">
+            Inspección HSE
         </a>
 
     </nav>
+
 
     <button class="menu-btn">
         ☰
@@ -62,19 +49,25 @@
 
 
 
-<main class="audit-page">
+<main class="hse-page">
 
 
-    <div class="audit-header">
+    <!-- =========================
+         ENCABEZADO
+    ========================== -->
+
+    <div class="hse-header">
 
         <p class="tag">
             NASER · SEGURIDAD OPERACIONAL
         </p>
 
+
         <h1>
-            Auditoría
+            Inspección HSE
             <span>de campo.</span>
         </h1>
+
 
         <p>
             Registro de situaciones, personal, herramientas
@@ -85,17 +78,23 @@
 
 
 
+    <!-- =========================
+         FORMULARIO
+    ========================== -->
+
     <form
-        class="audit-form"
-        id="auditForm"
+        class="hse-form"
+        id="hseForm"
     >
 
 
-        <!-- DATOS GENERALES -->
+        <!-- =========================
+             DATOS GENERALES
+        ========================== -->
 
-        <section class="audit-section">
+        <section class="hse-section">
 
-            <div class="audit-section-title">
+            <div class="hse-section-title">
 
                 <span>01</span>
 
@@ -159,12 +158,12 @@
             <div class="form-group">
 
                 <label>
-                    Auditor / Responsable
+                    Inspector HSE / Responsable
                 </label>
 
                 <input
                     type="text"
-                    name="auditor"
+                    name="inspector"
                     placeholder="Nombre y apellido"
                     required
                 >
@@ -175,11 +174,13 @@
 
 
 
-        <!-- NOTIFICACIONES -->
+        <!-- =========================
+             NOTIFICACIONES
+        ========================== -->
 
-        <section class="audit-section">
+        <section class="hse-section">
 
-            <div class="audit-section-title">
+            <div class="hse-section-title">
 
                 <span>02</span>
 
@@ -232,7 +233,7 @@
 
                 <select name="medio">
 
-                    <option>
+                    <option value="">
                         Seleccionar
                     </option>
 
@@ -264,11 +265,13 @@
 
 
 
-        <!-- PERSONAL -->
+        <!-- =========================
+             PERSONAL
+        ========================== -->
 
-        <section class="audit-section">
+        <section class="hse-section">
 
-            <div class="audit-section-title">
+            <div class="hse-section-title">
 
                 <span>03</span>
 
@@ -312,11 +315,13 @@
 
 
 
-        <!-- HERRAMIENTAS -->
+        <!-- =========================
+             HERRAMIENTAS Y EQUIPOS
+        ========================== -->
 
-        <section class="audit-section">
+        <section class="hse-section">
 
-            <div class="audit-section-title">
+            <div class="hse-section-title">
 
                 <span>04</span>
 
@@ -358,11 +363,13 @@
 
 
 
-        <!-- SEGURIDAD -->
+        <!-- =========================
+             ELEMENTOS DE SEGURIDAD
+        ========================== -->
 
-        <section class="audit-section">
+        <section class="hse-section">
 
-            <div class="audit-section-title">
+            <div class="hse-section-title">
 
                 <span>05</span>
 
@@ -401,6 +408,19 @@
 
                     <span>
                         Protección ocular
+                    </span>
+
+                </label>
+<label class="check">
+
+                    <input
+                        type="checkbox"
+                        name="epp"
+                        value="Ropa impermeable"
+                    >
+
+                    <span>
+                        Ropa impermeable
                     </span>
 
                 </label>
@@ -502,11 +522,13 @@
 
 
 
-        <!-- SITUACIÓN -->
+        <!-- =========================
+             SITUACIÓN OBSERVADA
+        ========================== -->
 
-        <section class="audit-section">
+        <section class="hse-section">
 
-            <div class="audit-section-title">
+            <div class="hse-section-title">
 
                 <span>06</span>
 
@@ -602,20 +624,22 @@
 
 
 
-        <!-- BOTÓN -->
+        <!-- =========================
+             BOTÓN
+        ========================== -->
 
         <button
             type="submit"
-            class="audit-submit"
+            class="hse-submit"
         >
 
-            Registrar auditoría →
+            Registrar inspección HSE →
 
         </button>
 
 
         <p
-            id="audit-message"
+            id="hse-message"
             class="form-message"
         ></p>
 
@@ -625,6 +649,10 @@
 </main>
 
 
+
+<!-- =========================
+     FOOTER
+========================== -->
 
 <footer>
 
@@ -646,7 +674,7 @@
 
 
 
-<script src="auditoria.js"></script>
+<script src="inspeccion-hse.js"></script>
 
 </body>
 
