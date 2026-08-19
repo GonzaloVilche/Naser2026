@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Naser | Auditoría</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header class="navbar">
+
+    <div class="logo">
+        NASER<span>.</span>
+    </div>
+
+    <nav>
+
+        <a href="index.html">
+            Inicio
+        </a>
+
+        <a href="index.html#nosotros">
+            Nosotros
+        </a>
+
+        <a href="index.html#servicios">
+            Servicios
+        </a>
+
+        <a href="index.html#proyectos">
+            Operaciones
+        </a>
+
+        <a href="auditoria.html">
+            Auditoría
+        </a>
+
+        <a href="index.html#contacto">
+            Contacto
+        </a>
+
+    </nav>
+
+    <button class="menu-btn">
+        ☰
+    </button>
+
+</header>
+
+
+
+<main class="audit-page">
+
+
+    <div class="audit-header">
+
+        <p class="tag">
+            NASER · SEGURIDAD OPERACIONAL
+        </p>
+
+        <h1>
+            Auditoría
+            <span>de campo.</span>
+        </h1>
+
+        <p>
+            Registro de situaciones, personal, herramientas
+            y elementos de seguridad involucrados en la operación.
+        </p>
+
+    </div>
+
+
+
+    <form
+        class="audit-form"
+        id="auditForm"
+    >
+
+
+        <!-- DATOS GENERALES -->
+
+        <section class="audit-section">
+
+            <div class="audit-section-title">
+
+                <span>01</span>
+
+                <h2>
+                    Datos generales
+                </h2>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+                        Fecha
+                    </label>
+
+                    <input
+                        type="date"
+                        name="fecha"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Hora
+                    </label>
+
+                    <input
+                        type="time"
+                        name="hora"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Ubicación / Área
+                </label>
+
+                <input
+                    type="text"
+                    name="ubicacion"
+                    placeholder="Ej: Yacimiento, planta, equipo..."
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Auditor / Responsable
+                </label>
+
+                <input
+                    type="text"
+                    name="auditor"
+                    placeholder="Nombre y apellido"
+                    required
+                >
+
+            </div>
+
+        </section>
+
+
+
+        <!-- NOTIFICACIONES -->
+
+        <section class="audit-section">
+
+            <div class="audit-section-title">
+
+                <span>02</span>
+
+                <h2>
+                    Notificaciones
+                </h2>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+                        Gerente notificado
+                    </label>
+
+                    <input
+                        type="text"
+                        name="gerente"
+                        placeholder="Nombre del gerente"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Supervisor notificado
+                    </label>
+
+                    <input
+                        type="text"
+                        name="supervisor"
+                        placeholder="Nombre del supervisor"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Medio de notificación
+                </label>
+
+                <select name="medio">
+
+                    <option>
+                        Seleccionar
+                    </option>
+
+                    <option>
+                        Presencial
+                    </option>
+
+                    <option>
+                        Teléfono
+                    </option>
+
+                    <option>
+                        Radio
+                    </option>
+
+                    <option>
+                        WhatsApp
+                    </option>
+
+                    <option>
+                        Otro
+                    </option>
+
+                </select>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PERSONAL -->
+
+        <section class="audit-section">
+
+            <div class="audit-section-title">
+
+                <span>03</span>
+
+                <h2>
+                    Personal
+                </h2>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    ¿Con quién va?
+                </label>
+
+                <textarea
+                    name="acompanantes"
+                    placeholder="Nombre y apellido del personal..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Cantidad de personas
+                </label>
+
+                <input
+                    type="number"
+                    name="cantidad"
+                    min="1"
+                    placeholder="Cantidad"
+                >
+
+            </div>
+
+        </section>
+
+
+
+        <!-- HERRAMIENTAS -->
+
+        <section class="audit-section">
+
+            <div class="audit-section-title">
+
+                <span>04</span>
+
+                <h2>
+                    Herramientas y equipos
+                </h2>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Herramientas utilizadas
+                </label>
+
+                <textarea
+                    name="herramientas"
+                    placeholder="Ej: Llaves, herramientas eléctricas, herramientas manuales..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Equipos / maquinaria
+                </label>
+
+                <textarea
+                    name="equipos"
+                    placeholder="Indicar equipos o maquinaria involucrada..."
+                ></textarea>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- SEGURIDAD -->
+
+        <section class="audit-section">
+
+            <div class="audit-section-title">
+
+                <span>05</span>
+
+                <h2>
+                    Elementos de seguridad
+                </h2>
+
+            </div>
+
+
+            <div class="checkbox-grid">
+
+
+                <label class="check">
+
+                    <input
+                        type="checkbox"
+                        name="epp"
+                        value="Casco"
+                    >
+
+                    <span>
+                        Casco
+                    </span>
+
+                </label>
+
+
+                <label class="check">
+
+                    <input
+                        type="checkbox"
+                        name="epp"
+                        value="Protección ocular"
+                    >
+
+                    <span>
+                        Protección ocular
+                    </span>
+
+                </label>
+
+
+                <label class="check">
+
+                    <input
+                        type="checkbox"
+                        name="epp"
+                        value="Protección auditiva"
+                    >
+
+                    <span>
+                        Protección auditiva
+                    </span>
+
+                </label>
+
+
+                <label class="check">
+
+                    <input
+                        type="checkbox"
+                        name="epp"
+                        value="Guantes"
+                    >
+
+                    <span>
+                        Guantes
+                    </span>
+
+                </label>
+
+
+                <label class="check">
+
+                    <input
+                        type="checkbox"
+                        name="epp"
+                        value="Calzado de seguridad"
+                    >
+
+                    <span>
+                        Calzado de seguridad
+                    </span>
+
+                </label>
+
+
+                <label class="check">
+
+                    <input
+                        type="checkbox"
+                        name="epp"
+                        value="Ropa ignífuga"
+                    >
+
+                    <span>
+                        Ropa ignífuga
+                    </span>
+
+                </label>
+
+
+                <label class="check">
+
+                    <input
+                        type="checkbox"
+                        name="epp"
+                        value="Arnés"
+                    >
+
+                    <span>
+                        Arnés
+                    </span>
+
+                </label>
+
+
+                <label class="check">
+
+                    <input
+                        type="checkbox"
+                        name="epp"
+                        value="Protección respiratoria"
+                    >
+
+                    <span>
+                        Protección respiratoria
+                    </span>
+
+                </label>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- SITUACIÓN -->
+
+        <section class="audit-section">
+
+            <div class="audit-section-title">
+
+                <span>06</span>
+
+                <h2>
+                    Situación observada
+                </h2>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Descripción
+                </label>
+
+                <textarea
+                    name="situacion"
+                    rows="6"
+                    placeholder="Describa la situación observada..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Nivel de riesgo
+                </label>
+
+                <select
+                    name="riesgo"
+                    required
+                >
+
+                    <option value="">
+                        Seleccionar nivel
+                    </option>
+
+                    <option>
+                        Bajo
+                    </option>
+
+                    <option>
+                        Medio
+                    </option>
+
+                    <option>
+                        Alto
+                    </option>
+
+                    <option>
+                        Crítico
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Medidas tomadas
+                </label>
+
+                <textarea
+                    name="medidas"
+                    rows="5"
+                    placeholder="Indicar las medidas adoptadas..."
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Observaciones adicionales
+                </label>
+
+                <textarea
+                    name="observaciones"
+                    rows="5"
+                    placeholder="Información adicional..."
+                ></textarea>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- BOTÓN -->
+
+        <button
+            type="submit"
+            class="audit-submit"
+        >
+
+            Registrar auditoría →
+
+        </button>
+
+
+        <p
+            id="audit-message"
+            class="form-message"
+        ></p>
+
+
+    </form>
+
+</main>
+
+
+
+<footer>
+
+    <div class="footer-logo">
+
+        NASER<span>.</span>
+
+    </div>
+
+    <p>
+
+        © <span id="year"></span>
+        Naser.
+        Todos los derechos reservados.
+
+    </p>
+
+</footer>
+
+
+
+<script src="auditoria.js"></script>
+
+</body>
+
+</html>
