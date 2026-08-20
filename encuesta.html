@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de satisfacción - NASER SRL</title>
+
+    <link rel="stylesheet" href="style3.css">
+</head>
+
+<body>
+
+    <!-- ENCABEZADO -->
+    <header>
+
+        <div class="logo">
+            NASER <span>SRL</span>
+        </div>
+
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="inspeccion hse.html">Inspección HSE</a>
+            <a href="encuesta.html" class="active">Encuesta</a>
+        </nav>
+
+    </header>
+
+
+    <!-- ENCUESTA -->
+    <main class="survey-page">
+
+        <div class="survey-header">
+
+            <small>Sistema de gestión integrado</small>
+
+            <h1>
+                Encuesta de <span>satisfacción</span>
+            </h1>
+
+            <p>
+                Agradecemos su colaboración para responder el siguiente
+                cuestionario. Sus respuestas serán tratadas de forma
+                confidencial y nos permitirán analizar y mejorar nuestro
+                servicio.
+            </p>
+
+        </div>
+
+
+        <form class="survey-form" onsubmit="enviarEncuesta(event)">
+
+            <!-- DATOS DEL CLIENTE -->
+
+            <h2 class="survey-section">
+                Datos del cliente
+            </h2>
+
+            <div class="survey-field">
+
+                <label>
+                    Indique su Nombre y Apellido
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    class="survey-input"
+                    placeholder="Nombre y Apellido"
+                    required
+                >
+
+            </div>
+
+
+            <div class="survey-field">
+
+                <label>
+                    Indique su Empresa
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    class="survey-input"
+                    placeholder="Empresa"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ESCALA -->
+
+            <div class="rating-info">
+
+                <h3>Escala de valoración</h3>
+
+                <p><strong>1 - 3:</strong> Malo</p>
+                <p><strong>4 - 5:</strong> Regular</p>
+                <p><strong>6 - 7:</strong> Bueno</p>
+                <p><strong>8 - 9:</strong> Muy Bueno</p>
+                <p><strong>10:</strong> Excelente</p>
+
+            </div>
+
+
+            <!-- PREGUNTA 1 -->
+
+            <div class="survey-field">
+
+                <label>
+                    ¿Cómo califica nuestro desempeño general?
+                    <span class="required">*</span>
+                </label>
+
+                <div class="rating">
+
+                    <input type="radio" name="p1" id="p1-1" value="1" required>
+                    <label for="p1-1">1</label>
+
+                    <input type="radio" name="p1" id="p1-2" value="2">
+                    <label for="p1-2">2</label>
+
+                    <input type="radio" name="p1" id="p1-3" value="3">
+                    <label for="p1-3">3</label>
+
+                    <input type="radio" name="p1" id="p1-4" value="4">
+                    <label for="p1-4">4</label>
+
+                    <input type="radio" name="p1" id="p1-5" value="5">
+                    <label for="p1-5">5</label>
+
+                    <input type="radio" name="p1" id="p1-6" value="6">
+                    <label for="p1-6">6</label>
+
+                    <input type="radio" name="p1" id="p1-7" value="7">
+                    <label for="p1-7">7</label>
+
+                    <input type="radio" name="p1" id="p1-8" value="8">
+                    <label for="p1-8">8</label>
+
+                    <input type="radio" name="p1" id="p1-9" value="9">
+                    <label for="p1-9">9</label>
+
+                    <input type="radio" name="p1" id="p1-10" value="10">
+                    <label for="p1-10">10</label>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREGUNTA 2 -->
+
+            <div class="survey-field">
+
+                <label>
+                    ¿Cómo califica nuestro desempeño en HSE?
+                    <span class="required">*</span>
+                </label>
+
+                <div class="rating">
+
+                    <input type="radio" name="p2" id="p2-1" value="1" required>
+                    <label for="p2-1">1</label>
+
+                    <input type="radio" name="p2" id="p2-2" value="2">
+                    <label for="p2-2">2</label>
+
+                    <input type="radio" name="p2" id="p2-3" value="3">
+                    <label for="p2-3">3</label>
+
+                    <input type="radio" name="p2" id="p2-4" value="4">
+                    <label for="p2-4">4</label>
+
+                    <input type="radio" name="p2" id="p2-5" value="5">
+                    <label for="p2-5">5</label>
+
+                    <input type="radio" name="p2" id="p2-6" value="6">
+                    <label for="p2-6">6</label>
+
+                    <input type="radio" name="p2" id="p2-7" value="7">
+                    <label for="p2-7">7</label>
+
+                    <input type="radio" name="p2" id="p2-8" value="8">
+                    <label for="p2-8">8</label>
+
+                    <input type="radio" name="p2" id="p2-9" value="9">
+                    <label for="p2-9">9</label>
+
+                    <input type="radio" name="p2" id="p2-10" value="10">
+                    <label for="p2-10">10</label>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREGUNTA 3 -->
+
+            <div class="survey-field">
+
+                <label>
+                    ¿Cómo califica nuestro desempeño operativo?
+                    <span class="required">*</span>
+                </label>
+
+                <div class="rating">
+
+                    <input type="radio" name="p3" id="p3-1" value="1" required>
+                    <label for="p3-1">1</label>
+
+                    <input type="radio" name="p3" id="p3-2" value="2">
+                    <label for="p3-2">2</label>
+
+                    <input type="radio" name="p3" id="p3-3" value="3">
+                    <label for="p3-3">3</label>
+
+                    <input type="radio" name="p3" id="p3-4" value="4">
+                    <label for="p3-4">4</label>
+
+                    <input type="radio" name="p3" id="p3-5" value="5">
+                    <label for="p3-5">5</label>
+
+                    <input type="radio" name="p3" id="p3-6" value="6">
+                    <label for="p3-6">6</label>
+
+                    <input type="radio" name="p3" id="p3-7" value="7">
+                    <label for="p3-7">7</label>
+
+                    <input type="radio" name="p3" id="p3-8" value="8">
+                    <label for="p3-8">8</label>
+
+                    <input type="radio" name="p3" id="p3-9" value="9">
+                    <label for="p3-9">9</label>
+
+                    <input type="radio" name="p3" id="p3-10" value="10">
+                    <label for="p3-10">10</label>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREGUNTA 4 -->
+
+            <div class="survey-field">
+
+                <label>
+                    ¿Considera que NASER SRL cumplió con los requisitos establecidos?
+                    <span class="required">*</span>
+                </label>
+
+                <div class="yes-no">
+
+                    <input type="radio" name="p4" id="p4-si" value="Si" required>
+                    <label for="p4-si">Sí</label>
+
+                    <input type="radio" name="p4" id="p4-no" value="No">
+                    <label for="p4-no">No</label>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREGUNTA 5 -->
+
+            <div class="survey-field">
+
+                <label>
+                    ¿El tiempo de ejecución del servicio fue el esperado?
+                    <span class="required">*</span>
+                </label>
+
+                <div class="yes-no">
+
+                    <input type="radio" name="p5" id="p5-si" value="Si" required>
+                    <label for="p5-si">Sí</label>
+
+                    <input type="radio" name="p5" id="p5-no" value="No">
+                    <label for="p5-no">No</label>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREGUNTA 6 -->
+
+            <div class="survey-field">
+
+                <label>
+                    ¿Recibió asesoramiento y/o recomendaciones sobre el servicio?
+                    <span class="required">*</span>
+                </label>
+
+                <div class="yes-no">
+
+                    <input type="radio" name="p6" id="p6-si" value="Si" required>
+                    <label for="p6-si">Sí</label>
+
+                    <input type="radio" name="p6" id="p6-no" value="No">
+                    <label for="p6-no">No</label>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREGUNTA 7 -->
+
+            <div class="survey-field">
+
+                <label>
+                    ¿Cómo califica el cuidado y manipulación de sus instalaciones durante la prestación del servicio?
+                    <span class="required">*</span>
+                </label>
+
+                <div class="rating">
+
+                    <input type="radio" name="p7" id="p7-1" value="1" required>
+                    <label for="p7-1">1</label>
+
+                    <input type="radio" name="p7" id="p7-2" value="2">
+                    <label for="p7-2">2</label>
+
+                    <input type="radio" name="p7" id="p7-3" value="3">
+                    <label for="p7-3">3</label>
+
+                    <input type="radio" name="p7" id="p7-4" value="4">
+                    <label for="p7-4">4</label>
+
+                    <input type="radio" name="p7" id="p7-5" value="5">
+                    <label for="p7-5">5</label>
+
+                    <input type="radio" name="p7" id="p7-6" value="6">
+                    <label for="p7-6">6</label>
+
+                    <input type="radio" name="p7" id="p7-7" value="7">
+                    <label for="p7-7">7</label>
+
+                    <input type="radio" name="p7" id="p7-8" value="8">
+                    <label for="p7-8">8</label>
+
+                    <input type="radio" name="p7" id="p7-9" value="9">
+                    <label for="p7-9">9</label>
+
+                    <input type="radio" name="p7" id="p7-10" value="10">
+                    <label for="p7-10">10</label>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREGUNTA 8 -->
+
+            <div class="survey-field">
+
+                <label>
+                    ¿Cómo califica el equipamiento de NASER SRL para la prestación del servicio?
+                    <span class="required">*</span>
+                </label>
+
+                <div class="rating">
+
+                    <input type="radio" name="p8" id="p8-1" value="1" required>
+                    <label for="p8-1">1</label>
+
+                    <input type="radio" name="p8" id="p8-2" value="2">
+                    <label for="p8-2">2</label>
+
+                    <input type="radio" name="p8" id="p8-3" value="3">
+                    <label for="p8-3">3</label>
+
+                    <input type="radio" name="p8" id="p8-4" value="4">
+                    <label for="p8-4">4</label>
+
+                    <input type="radio" name="p8" id="p8-5" value="5">
+                    <label for="p8-5">5</label>
+
+                    <input type="radio" name="p8" id="p8-6" value="6">
+                    <label for="p8-6">6</label>
+
+                    <input type="radio" name="p8" id="p8-7" value="7">
+                    <label for="p8-7">7</label>
+
+                    <input type="radio" name="p8" id="p8-8" value="8">
+                    <label for="p8-8">8</label>
+
+                    <input type="radio" name="p8" id="p8-9" value="9">
+                    <label for="p8-9">9</label>
+
+                    <input type="radio" name="p8" id="p8-10" value="10">
+                    <label for="p8-10">10</label>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREGUNTA 9 -->
+
+            <div class="survey-field">
+
+                <label>
+                    ¿Cómo califica nuestra capacidad para brindar soluciones ante distintos escenarios?
+                    <span class="required">*</span>
+                </label>
+
+                <div class="rating">
+
+                    <input type="radio" name="p9" id="p9-1" value="1" required>
+                    <label for="p9-1">1</label>
+
+                    <input type="radio" name="p9" id="p9-2" value="2">
+                    <label for="p9-2">2</label>
+
+                    <input type="radio" name="p9" id="p9-3" value="3">
+                    <label for="p9-3">3</label>
+
+                    <input type="radio" name="p9" id="p9-4" value="4">
+                    <label for="p9-4">4</label>
+
+                    <input type="radio" name="p9" id="p9-5" value="5">
+                    <label for="p9-5">5</label>
+
+                    <input type="radio" name="p9" id="p9-6" value="6">
+                    <label for="p9-6">6</label>
+
+                    <input type="radio" name="p9" id="p9-7" value="7">
+                    <label for="p9-7">7</label>
+
+                    <input type="radio" name="p9" id="p9-8" value="8">
+                    <label for="p9-8">8</label>
+
+                    <input type="radio" name="p9" id="p9-9" value="9">
+                    <label for="p9-9">9</label>
+
+                    <input type="radio" name="p9" id="p9-10" value="10">
+                    <label for="p9-10">10</label>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMENTARIOS -->
+
+            <div class="survey-field">
+
+                <label>
+                    Si desea, incluya comentarios que puedan contribuir
+                    a la mejora de nuestro servicio.
+                </label>
+
+                <textarea
+                    class="survey-textarea"
+                    placeholder="Escriba aquí sus comentarios..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- BOTON -->
+
+            <button type="submit" class="survey-submit">
+                ENVIAR ENCUESTA
+            </button>
+
+
+            <!-- MENSAJE -->
+
+            <div id="mensaje" class="survey-message">
+
+                <h3>¡Gracias por su colaboración!</h3>
+
+                <p>
+                    Su opinión nos ayuda a mejorar continuamente
+                    la calidad de nuestros servicios.
+                </p>
+
+            </div>
+
+        </form>
+
+    </main>
+
+
+    <script>
+
+        function enviarEncuesta(event) {
+
+            event.preventDefault();
+
+            document.getElementById("mensaje").style.display = "block";
+
+            document.getElementById("mensaje").scrollIntoView({
+                behavior: "smooth"
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>
