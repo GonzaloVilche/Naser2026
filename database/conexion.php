@@ -10,3 +10,8 @@ try {
 } catch (PDOException $e) {
     die("Error crítico de conexión: " . $e->getMessage());
 }
+$conexion = new mysqli("localhost", "root", "", "naser");
+
+if ($conexion->connect_error) {
+    die("error de conexion");
+}
