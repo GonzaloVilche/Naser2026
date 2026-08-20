@@ -46,3 +46,29 @@ CREATE TABLE IF NOT EXISTS inspecciones_hse (
     elementos_seguridad TEXT NULL, -- Aquí guardaremos los checkboxes seleccionados
     creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE DATABASE naser;
+
+USE naser;
+
+CREATE TABLE clientes (
+    id_cliente INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_apellido VARCHAR(100) NOT NULL,
+    empresa VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE encuestas (
+    id_encuesta INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    p1 INT NOT NULL,
+    p2 INT NOT NULL,
+    p3 INT NOT NULL,
+    p4 VARCHAR(3) NOT NULL,
+    p5 VARCHAR(3) NOT NULL,
+    p6 VARCHAR(3) NOT NULL,
+    p7 INT NOT NULL,
+    p8 INT NOT NULL,
+    p9 INT NOT NULL,
+    comentarios TEXT,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id_cliente)
+);
