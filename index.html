@@ -9,6 +9,7 @@
 
     <!-- Enlace al archivo CSS estilizado -->
     <link rel="stylesheet" href="style.css">
+ 
 </head>
 
 <body>
@@ -17,20 +18,23 @@
          ENCABEZADO
     ========================== -->
 
-    <header class="navbar">
+   <header class="navbar">
 
-        <div class="logo">
-            NASER <span>SRL</span>
-        </div>
+    <div class="logo">
+        NASER <span>SRL</span>
+    </div>
 
-        <nav>
-            <a href="#inicio" class="active">Inicio</a>
-            <!-- Enlace corregido sin espacios y con extensión .html -->
-            <a href="inspeccion hse.html">Inspección HSE</a>
-            <a href="encuesta.html">Encuesta</a>
-        </nav>
+    <button class="menu-btn" onclick="abrirMenu()">
+        ☰
+    </button>
 
-    </header>
+    <nav id="menu">
+        <a href="#inicio" class="active" onclick="cerrarMenu()">Inicio</a>
+        <a href="inspeccion hse.html" onclick="cerrarMenu()">Inspección HSE</a>
+        <a href="encuesta.html" onclick="cerrarMenu()">Encuesta</a>
+    </nav>
+
+</header>
 
 
     <!-- =========================
@@ -288,7 +292,17 @@
             © 2026 Servicios NASER SRL. Todos los derechos reservados.
         </p>
 
-    </footer>
+</footer>
+
+    <script>
+        function abrirMenu() {
+            document.getElementById("menu").classList.toggle("mostrar");
+        }
+
+        function cerrarMenu() {
+            document.getElementById("menu").classList.remove("mostrar");
+        }
+    </script>
 
 </body>
 
