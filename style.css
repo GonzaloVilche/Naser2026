@@ -32,14 +32,14 @@ header, .navbar {
     padding: 0 7%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 20px;
     background: #0d1410;
     border-bottom: 1px solid #26352d;
     position: sticky;
     top: 0;
     z-index: 1000;
 }
-
 /* LOGO */
 .logo {
     font-size: 27px;
