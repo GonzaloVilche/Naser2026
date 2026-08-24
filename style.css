@@ -1,11 +1,10 @@
 /* =========================================================
    NASER SRL
    SISTEMA DE GESTIÓN INTEGRADO
-   ESTILO CORPORATIVO CLARO
+   ESTILO CORPORATIVO
 ========================================================= */
 
 :root {
-    /* VERDES NASER */
     --verde-oscuro: #00552b;
     --verde-fuerte: #00843d;
     --verde-principal: #009b49;
@@ -13,7 +12,6 @@
     --verde-suave: #e5f6ec;
     --verde-fondo: #f5fbf7;
 
-    /* NEUTROS */
     --blanco: #ffffff;
     --fondo: #f7f9f8;
     --gris-claro: #eef2ef;
@@ -22,7 +20,6 @@
     --texto-secundario: #59655f;
     --texto: #1c2520;
 
-    /* SOMBRAS */
     --sombra-suave: 0 4px 18px rgba(0, 0, 0, 0.06);
     --sombra-media: 0 8px 28px rgba(0, 0, 0, 0.09);
 }
@@ -181,7 +178,7 @@ body {
 }
 
 
-/* FLECHA */
+/* Flecha */
 
 .sidebar summary::after {
     content: "›";
@@ -199,7 +196,7 @@ body {
 }
 
 
-/* HOVER */
+/* Hover */
 
 .sidebar summary:hover {
     background: var(--verde-suave);
@@ -501,17 +498,24 @@ body {
 
     background:
         linear-gradient(
-            rgba(255, 255, 255, 0.80),
-            rgba(245, 251, 247, 0.94)
+            rgba(255, 255, 255, 0.55),
+            rgba(245, 251, 247, 0.78)
         ),
-        url("img/portada-naser.jpg");
+        url("img/imagenempresa.jpeg");
 
     background-size: cover;
+
     background-position: center;
+
     background-repeat: no-repeat;
 
     border-bottom: 1px solid var(--gris-borde);
 }
+
+
+/* =========================================================
+   CONTENIDO DEL HERO
+========================================================= */
 
 .hero-content {
     max-width: 950px;
@@ -521,6 +525,7 @@ body {
     display: inline-block;
 
     padding: 8px 18px;
+
     margin-bottom: 25px;
 
     background: var(--verde-suave);
@@ -661,7 +666,7 @@ body {
 
     color: var(--blanco);
 
-    border-radius: 9px;
+    border-radius: 99px;
 
     font-weight: bold;
 }
@@ -919,147 +924,32 @@ body {
 ========================================================= */
 
 footer {
-    padding: 40px 7%;
+    padding: 50px 7%;
 
     text-align: center;
 
-    background: var(--verde-oscuro);
+    background: var(--fondo);
 
-    border-top: 4px solid var(--verde-principal);
+    border-top: 1px solid var(--gris-borde);
+
+    color: var(--texto-secundario);
+
+    font-size: 14px;
 }
 
 .footer-logo {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 
-    color: var(--blanco);
-
-    font-size: 20px;
+    color: var(--texto);
 
     font-weight: bold;
+    font-size: 18px;
 }
 
 .footer-logo span {
-    color: #8ee0ad;
+    color: var(--verde-fuerte);
 }
 
 footer p {
-    margin-bottom: 5px;
-
-    color: #d4e6dc;
-
-    font-size: 13px;
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 1100px) {
-
-    .sector-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .values {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-
-/* =========================================================
-   CELULAR
-========================================================= */
-
-@media (max-width: 700px) {
-
-    .sidebar {
-        position: relative;
-
-        width: 100%;
-        height: auto;
-
-        overflow: visible;
-
-        border-right: none;
-        border-bottom: 1px solid var(--gris-borde);
-
-        box-shadow: none;
-    }
-
-    .sidebar-user {
-        position: relative;
-
-        left: auto;
-        right: auto;
-        bottom: auto;
-
-        margin-top: 20px;
-    }
-
-    .sidebar-logo {
-        justify-content: center;
-    }
-
-    .main-content {
-        margin-left: 0;
-    }
-
-    .navbar {
-        width: 100%;
-
-        position: relative;
-
-        height: auto;
-        min-height: 70px;
-
-        padding: 15px 5%;
-    }
-
-    .navbar-title {
-        display: none;
-    }
-
-    .header-links {
-        margin-left: auto;
-    }
-
-    .hero {
-        min-height: 65vh;
-
-        padding: 60px 5%;
-    }
-
-    .hero h1 {
-        font-size: 38px;
-    }
-
-    .hero p {
-        font-size: 15px;
-    }
-
-    .sector-section {
-        padding: 60px 5%;
-    }
-
-    .sector-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .policy-section {
-        padding: 60px 5%;
-    }
-
-    .section-title h2 {
-        font-size: 30px;
-    }
-
-    .intro,
-    .commitments {
-        padding: 22px;
-    }
-
-    .values {
-        grid-template-columns: 1fr;
-    }
+    margin-bottom: 8px;
 }
