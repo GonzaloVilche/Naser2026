@@ -1,5 +1,34 @@
 /* =========================================================
    NASER SRL
+   SISTEMA DE GESTIÓN INTEGRADO
+   ESTILO CORPORATIVO CLARO
+========================================================= */
+
+:root {
+    /* VERDES NASER */
+    --verde-oscuro: #00552b;
+    --verde-fuerte: #00843d;
+    --verde-principal: #009b49;
+    --verde-claro: #19a85a;
+    --verde-suave: #e5f6ec;
+    --verde-fondo: #f5fbf7;
+
+    /* NEUTROS */
+    --blanco: #ffffff;
+    --fondo: #f7f9f8;
+    --gris-claro: #eef2ef;
+    --gris-borde: #dde4df;
+    --gris: #8a9890;
+    --texto-secundario: #59655f;
+    --texto: #1c2520;
+
+    /* SOMBRAS */
+    --sombra-suave: 0 4px 18px rgba(0, 0, 0, 0.06);
+    --sombra-media: 0 8px 28px rgba(0, 0, 0, 0.09);
+}
+
+
+/* =========================================================
    CONFIGURACIÓN GENERAL
 ========================================================= */
 
@@ -15,8 +44,8 @@ html {
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: #080d0a;
-    color: #f2f5f3;
+    background: var(--blanco);
+    color: var(--texto);
     line-height: 1.6;
 }
 
@@ -33,10 +62,13 @@ body {
     width: 250px;
     height: 100vh;
 
-    padding: 15px;
+    padding: 18px 15px;
 
-    background: #0d1410;
-    border-right: 1px solid #26352d;
+    background: var(--blanco);
+
+    border-right: 1px solid var(--gris-borde);
+
+    box-shadow: 3px 0 20px rgba(0, 0, 0, 0.04);
 
     overflow: hidden;
 
@@ -49,18 +81,21 @@ body {
 ========================================================= */
 
 .sidebar-logo {
-    height: 65px;
+    height: 75px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    margin-bottom: 10px;
+    margin-bottom: 18px;
+
+    background: var(--blanco);
 }
 
 .sidebar-logo img {
-    max-width: 180px;
-    max-height: 60px;
+    max-width: 185px;
+    max-height: 68px;
+
     object-fit: contain;
 }
 
@@ -72,24 +107,29 @@ body {
 .sidebar-home {
     display: block;
 
-    padding: 10px 15px;
-    margin-bottom: 17px;
+    padding: 11px 15px;
+    margin-bottom: 20px;
 
-    background: #245d3b;
-    color: #ffffff;
+    background: var(--verde-fuerte);
+
+    color: var(--blanco);
 
     text-decoration: none;
 
-    border-radius: 6px;
+    border-radius: 7px;
 
     font-size: 14px;
     font-weight: 600;
 
-    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 132, 61, 0.18);
+
+    transition: 0.25s;
 }
 
 .sidebar-home:hover {
-    background: #398f5d;
+    background: var(--verde-oscuro);
+
+    transform: translateY(-1px);
 }
 
 
@@ -98,9 +138,9 @@ body {
 ========================================================= */
 
 .sidebar-title {
-    padding: 0 10px 6px;
+    padding: 0 10px 8px;
 
-    color: #70b879;
+    color: var(--verde-fuerte);
 
     font-size: 11px;
     font-weight: bold;
@@ -112,11 +152,11 @@ body {
 
 
 /* =========================================================
-   SECTORES
+   SECTORES SIDEBAR
 ========================================================= */
 
 .sidebar details {
-    margin-bottom: 1px;
+    margin-bottom: 2px;
 }
 
 .sidebar summary {
@@ -126,14 +166,14 @@ body {
 
     padding: 8px 12px;
 
-    color: #d1d7d3;
+    color: var(--texto-secundario);
 
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
 
-    border-radius: 5px;
+    border-radius: 6px;
 
-    transition: 0.3s;
+    transition: 0.25s;
 }
 
 .sidebar summary::-webkit-details-marker {
@@ -148,9 +188,10 @@ body {
 
     float: right;
 
-    color: #70b879;
+    color: var(--verde-fuerte);
 
     font-size: 17px;
+    font-weight: bold;
 }
 
 .sidebar details[open] summary::after {
@@ -161,43 +202,46 @@ body {
 /* HOVER */
 
 .sidebar summary:hover {
-    background: #131a16;
-    color: #70b879;
+    background: var(--verde-suave);
+
+    color: var(--verde-oscuro);
 }
 
 .sidebar details[open] summary {
-    background: #131a16;
-    color: #70b879;
+    background: var(--verde-suave);
+
+    color: var(--verde-oscuro);
 }
 
 
 /* =========================================================
-   SUBMENÚ DE CADA SECTOR
+   SUBMENÚ
 ========================================================= */
 
 .sidebar details a {
     display: block;
 
     padding: 6px 15px 6px 28px;
+
     margin-left: 12px;
 
-    color: #9da8a1;
+    color: var(--texto-secundario);
 
     text-decoration: none;
 
-    border-left: 2px solid #26352d;
+    border-left: 2px solid var(--gris-borde);
 
     font-size: 11px;
 
-    transition: 0.3s;
+    transition: 0.25s;
 }
 
 .sidebar details a:hover {
-    color: #70b879;
+    color: var(--verde-fuerte);
 
-    border-left-color: #43a968;
+    border-left-color: var(--verde-fuerte);
 
-    background: #101712;
+    background: var(--verde-fondo);
 }
 
 
@@ -208,9 +252,9 @@ body {
 .sidebar-divider {
     height: 1px;
 
-    margin: 10px 5px;
+    margin: 12px 5px;
 
-    background: #26352d;
+    background: var(--gris-borde);
 }
 
 
@@ -223,28 +267,29 @@ body {
 
     position: relative;
 
-    padding: 7px 12px;
+    padding: 8px 12px;
 
-    color: #b9c3bd;
+    color: var(--texto-secundario);
 
     text-decoration: none;
 
-    border-radius: 5px;
+    border-radius: 6px;
 
     font-size: 13px;
+    font-weight: 500;
 
-    transition: 0.3s;
+    transition: 0.25s;
 }
 
 .sidebar-link:hover {
-    color: #70b879;
+    color: var(--verde-fuerte);
 
-    background: #131a16;
+    background: var(--verde-suave);
 }
 
 
 /* =========================================================
-   NÚMERO DE ALERTAS
+   ALERTAS
 ========================================================= */
 
 .sidebar-alertas span {
@@ -253,8 +298,8 @@ body {
     right: 10px;
     top: 6px;
 
-    width: 21px;
-    height: 21px;
+    width: 22px;
+    height: 22px;
 
     display: flex;
     align-items: center;
@@ -262,9 +307,9 @@ body {
 
     border-radius: 50%;
 
-    background: #245d3b;
+    background: var(--verde-fuerte);
 
-    color: #70b879;
+    color: var(--blanco);
 
     font-size: 10px;
     font-weight: bold;
@@ -289,11 +334,11 @@ body {
 
     gap: 10px;
 
-    background: #131a16;
+    background: var(--verde-fondo);
 
-    border: 1px solid #26352d;
+    border: 1px solid var(--gris-borde);
 
-    border-radius: 7px;
+    border-radius: 8px;
 }
 
 .user-avatar {
@@ -306,9 +351,9 @@ body {
     align-items: center;
     justify-content: center;
 
-    background: #245d3b;
+    background: var(--verde-fuerte);
 
-    color: #70b879;
+    color: var(--blanco);
 
     border-radius: 50%;
 
@@ -323,7 +368,7 @@ body {
 .user-data strong {
     display: block;
 
-    color: #ffffff;
+    color: var(--texto);
 
     font-size: 13px;
 }
@@ -331,7 +376,7 @@ body {
 .user-data small {
     display: block;
 
-    color: #9da8a1;
+    color: var(--gris);
 
     font-size: 10px;
 }
@@ -346,7 +391,7 @@ body {
 
     min-height: 100vh;
 
-    background: #080d0a;
+    background: var(--blanco);
 }
 
 
@@ -371,16 +416,18 @@ body {
     display: flex;
     align-items: center;
 
-    background: #0d1410;
+    background: rgba(255, 255, 255, 0.97);
 
-    border-bottom: 1px solid #26352d;
+    border-bottom: 1px solid var(--gris-borde);
+
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
 }
 
 .navbar-title {
-    color: #ffffff;
+    color: var(--texto);
 
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .header-links {
@@ -395,18 +442,18 @@ body {
 .header-links a {
     position: relative;
 
-    color: #b9c3bd;
+    color: var(--texto-secundario);
 
     text-decoration: none;
 
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
 
-    transition: 0.3s;
+    transition: 0.25s;
 }
 
 .header-links a:hover {
-    color: #4caf72;
+    color: var(--verde-fuerte);
 }
 
 .header-links a::after {
@@ -420,9 +467,9 @@ body {
     width: 0;
     height: 2px;
 
-    background: #43a968;
+    background: var(--verde-fuerte);
 
-    transition: 0.3s;
+    transition: 0.25s;
 }
 
 .header-links a:hover::after,
@@ -431,9 +478,9 @@ body {
 }
 
 .header-links a.active {
-    color: #4caf72;
+    color: var(--verde-fuerte);
 
-    font-weight: 600;
+    font-weight: 700;
 }
 
 
@@ -442,7 +489,7 @@ body {
 ========================================================= */
 
 .hero {
-    min-height: 72vh;
+    min-height: 70vh;
 
     padding: 155px 7% 80px;
 
@@ -454,14 +501,16 @@ body {
 
     background:
         linear-gradient(
-            rgba(5, 10, 7, 0.86),
-            rgba(5, 10, 7, 0.94)
+            rgba(255, 255, 255, 0.80),
+            rgba(245, 251, 247, 0.94)
         ),
         url("img/portada-naser.jpg");
 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+
+    border-bottom: 1px solid var(--gris-borde);
 }
 
 .hero-content {
@@ -474,13 +523,16 @@ body {
     padding: 8px 18px;
     margin-bottom: 25px;
 
-    border: 1px solid #357b52;
+    background: var(--verde-suave);
+
+    border: 1px solid #b8dfc7;
 
     border-radius: 30px;
 
-    color: #55b879;
+    color: var(--verde-oscuro);
 
-    font-size: 13px;
+    font-size: 12px;
+    font-weight: bold;
 
     text-transform: uppercase;
 
@@ -490,13 +542,17 @@ body {
 .hero h1 {
     margin-bottom: 25px;
 
+    color: var(--texto);
+
     font-size: clamp(38px, 6vw, 70px);
 
     line-height: 1.1;
+
+    letter-spacing: -1px;
 }
 
 .hero h1 span {
-    color: #43a968;
+    color: var(--verde-fuerte);
 }
 
 .hero p {
@@ -504,7 +560,7 @@ body {
 
     margin: auto;
 
-    color: #b8c1bc;
+    color: var(--texto-secundario);
 
     font-size: 18px;
 }
@@ -515,9 +571,9 @@ body {
 ========================================================= */
 
 .sector-section {
-    padding: 80px 7%;
+    padding: 85px 7%;
 
-    background: #0b100d;
+    background: var(--fondo);
 }
 
 .container {
@@ -533,7 +589,7 @@ body {
 }
 
 .sector-title small {
-    color: #4caf72;
+    color: var(--verde-fuerte);
 
     text-transform: uppercase;
 
@@ -545,7 +601,7 @@ body {
 .sector-title h2 {
     margin-top: 8px;
 
-    color: #ffffff;
+    color: var(--texto);
 
     font-size: 35px;
 }
@@ -553,7 +609,7 @@ body {
 .sector-title p {
     margin-top: 8px;
 
-    color: #9da8a1;
+    color: var(--texto-secundario);
 }
 
 
@@ -570,38 +626,42 @@ body {
 }
 
 .sector-card {
-    padding: 25px;
+    padding: 26px;
 
-    background: #131a16;
+    background: var(--blanco);
 
-    border: 1px solid #26362d;
+    border: 1px solid var(--gris-borde);
 
-    border-radius: 8px;
+    border-radius: 10px;
 
-    transition: 0.3s;
+    box-shadow: var(--sombra-suave);
+
+    transition: 0.25s;
 }
 
 .sector-card:hover {
     transform: translateY(-5px);
 
-    border-color: #398f5d;
+    border-color: var(--verde-fuerte);
+
+    box-shadow: var(--sombra-media);
 }
 
 .sector-letter {
-    width: 45px;
-    height: 45px;
+    width: 46px;
+    height: 46px;
 
-    margin-bottom: 15px;
+    margin-bottom: 17px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background: #245d3b;
+    background: var(--verde-fuerte);
 
-    color: #70b879;
+    color: var(--blanco);
 
-    border-radius: 50%;
+    border-radius: 9px;
 
     font-weight: bold;
 }
@@ -609,7 +669,7 @@ body {
 .sector-card h3 {
     margin-bottom: 15px;
 
-    color: #ffffff;
+    color: var(--texto);
 
     font-size: 17px;
 }
@@ -619,15 +679,15 @@ body {
 
     padding: 9px 0;
 
-    color: #9da8a1;
+    color: var(--texto-secundario);
 
     text-decoration: none;
 
-    border-bottom: 1px solid #26322c;
+    border-bottom: 1px solid var(--gris-claro);
 
     font-size: 13px;
 
-    transition: 0.3s;
+    transition: 0.25s;
 }
 
 .sector-card a:last-child {
@@ -635,7 +695,9 @@ body {
 }
 
 .sector-card a:hover {
-    color: #70b879;
+    color: var(--verde-fuerte);
+
+    padding-left: 4px;
 }
 
 
@@ -646,7 +708,7 @@ body {
 .policy-section {
     padding: 90px 7%;
 
-    background: #0d1210;
+    background: var(--blanco);
 }
 
 .section-title {
@@ -656,7 +718,7 @@ body {
 }
 
 .section-title small {
-    color: #4caf72;
+    color: var(--verde-fuerte);
 
     text-transform: uppercase;
 
@@ -668,13 +730,15 @@ body {
 .section-title h2 {
     margin-top: 10px;
 
+    color: var(--texto);
+
     font-size: 40px;
 }
 
 .section-title p {
     margin-top: 10px;
 
-    color: #9da8a1;
+    color: var(--texto-secundario);
 }
 
 
@@ -685,21 +749,27 @@ body {
 .intro {
     margin-bottom: 30px;
 
-    padding: 30px;
+    padding: 32px;
 
-    background: #131a16;
+    background: var(--blanco);
 
-    border: 1px solid #26362d;
+    border: 1px solid var(--gris-borde);
 
-    border-left: 4px solid #429b64;
+    border-left: 5px solid var(--verde-fuerte);
 
-    border-radius: 8px;
+    border-radius: 9px;
+
+    box-shadow: var(--sombra-suave);
 }
 
 .intro p {
     margin-bottom: 15px;
 
-    color: #d1d7d3;
+    color: var(--texto-secundario);
+}
+
+.intro p strong {
+    color: var(--texto);
 }
 
 .intro p:last-child {
@@ -714,17 +784,17 @@ body {
 .commitments {
     padding: 35px;
 
-    background: #131a16;
+    background: var(--fondo);
 
-    border: 1px solid #26362d;
+    border: 1px solid var(--gris-borde);
 
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 .commitments h3 {
     margin-bottom: 25px;
 
-    color: #ffffff;
+    color: var(--texto);
 
     font-size: 25px;
 }
@@ -736,11 +806,11 @@ body {
 .commitments li {
     position: relative;
 
-    padding: 15px 15px 15px 45px;
+    padding: 15px 15px 15px 48px;
 
-    border-bottom: 1px solid #26322c;
+    border-bottom: 1px solid var(--gris-borde);
 
-    color: #cbd2ce;
+    color: var(--texto-secundario);
 }
 
 .commitments li:last-child {
@@ -753,10 +823,10 @@ body {
     position: absolute;
 
     left: 10px;
-    top: 14px;
+    top: 13px;
 
-    width: 25px;
-    height: 25px;
+    width: 27px;
+    height: 27px;
 
     display: flex;
     align-items: center;
@@ -764,10 +834,11 @@ body {
 
     border-radius: 50%;
 
-    background: #245d3b;
+    background: var(--verde-fuerte);
 
-    color: #65c88a;
+    color: var(--blanco);
 
+    font-size: 13px;
     font-weight: bold;
 }
 
@@ -787,28 +858,32 @@ body {
 }
 
 .value-card {
-    padding: 25px;
+    padding: 27px;
 
     text-align: center;
 
-    background: #131a16;
+    background: var(--blanco);
 
-    border: 1px solid #26362d;
+    border: 1px solid var(--gris-borde);
 
-    border-radius: 8px;
+    border-radius: 10px;
 
-    transition: 0.3s;
+    box-shadow: var(--sombra-suave);
+
+    transition: 0.25s;
 }
 
 .value-card:hover {
     transform: translateY(-5px);
 
-    border-color: #398f5d;
+    border-color: var(--verde-fuerte);
+
+    box-shadow: var(--sombra-media);
 }
 
 .value-icon {
-    width: 45px;
-    height: 45px;
+    width: 46px;
+    height: 46px;
 
     margin: 0 auto 15px;
 
@@ -816,9 +891,9 @@ body {
     align-items: center;
     justify-content: center;
 
-    background: #245d3b;
+    background: var(--verde-fuerte);
 
-    color: #70b879;
+    color: var(--blanco);
 
     border-radius: 50%;
 
@@ -829,11 +904,11 @@ body {
 .value-card h4 {
     margin-bottom: 8px;
 
-    color: #ffffff;
+    color: var(--texto);
 }
 
 .value-card p {
-    color: #9da8a1;
+    color: var(--texto-secundario);
 
     font-size: 14px;
 }
@@ -844,19 +919,19 @@ body {
 ========================================================= */
 
 footer {
-    padding: 35px 7%;
+    padding: 40px 7%;
 
     text-align: center;
 
-    background: #080b09;
+    background: var(--verde-oscuro);
 
-    border-top: 1px solid #202b25;
+    border-top: 4px solid var(--verde-principal);
 }
 
 .footer-logo {
     margin-bottom: 10px;
 
-    color: #43a968;
+    color: var(--blanco);
 
     font-size: 20px;
 
@@ -864,13 +939,13 @@ footer {
 }
 
 .footer-logo span {
-    color: #ffffff;
+    color: #8ee0ad;
 }
 
 footer p {
     margin-bottom: 5px;
 
-    color: #737d77;
+    color: #d4e6dc;
 
     font-size: 13px;
 }
@@ -907,7 +982,9 @@ footer p {
         overflow: visible;
 
         border-right: none;
-        border-bottom: 1px solid #26352d;
+        border-bottom: 1px solid var(--gris-borde);
+
+        box-shadow: none;
     }
 
     .sidebar-user {
@@ -943,10 +1020,18 @@ footer p {
         display: none;
     }
 
+    .header-links {
+        margin-left: auto;
+    }
+
     .hero {
         min-height: 65vh;
 
         padding: 60px 5%;
+    }
+
+    .hero h1 {
+        font-size: 38px;
     }
 
     .hero p {
