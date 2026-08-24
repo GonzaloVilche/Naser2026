@@ -8,6 +8,7 @@ if (!empty($_SESSION['usuario_id'])) {
 }
 
 $error = '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -22,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['nombre'] = $usuario['nombre'];
         $_SESSION['email'] = $usuario['email'];
         $_SESSION['rol'] = $usuario['rol'];
+
         header('Location: dashboard.php');
         exit;
     }
