@@ -62,12 +62,12 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
             <p class="eyebrow">GESTIÓN CENTRALIZADA</p>
             <h2>Documentación y procedimientos por sector</h2>
             <p>Ingresá directamente al área que necesites. Los accesos se habilitan según el usuario.</p>
-<<<<<<< HEAD
-=======
+
         </section>
 
         <!-- SECCIÓN INTERMEDIA: BLOQUE DE TEXTO O NOVEDADES -->
         <section class="info-intermedia">
+<<<<<<< HEAD
 <<<<<<< HEAD
             <small>INFORMACIÓN GENERAL</small>
             <h2>Título del comunicado o información relevante</h2>
@@ -75,6 +75,8 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
                 Aquí puedes colocar cualquier texto, aviso o instrucción que desees destacar para todo el personal. 
                 Este contenido aparece en el medio del panel y desplaza los sectores hacia abajo.
             </p>
+=======
+>>>>>>> ea2c1fbed3a8bb3f5ecfb572d88edc72adcc8a60
          <small>INFORMACIÓN GENERAL</small>
          <h2>Política de Calidad Ambiente Seguridad y Salud </h2>
           <p> ofrece soluciones a la industria hidrocarburífera mediante operaciones de Slick Line, Well Testing y Flow Back, impulsando el uso de tecnología y mejores prácticas. </p>
@@ -113,15 +115,18 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
          <p>
          • Comunicar esta política a nuestro personal, clientes y partes interesadas.
          </p>
+<<<<<<< HEAD
         </section>
+=======
+            <small>INFORMACIÓN GENERAL</small>
+            <h2>Título del comunicado o información relevante</h2>
+            <p>
+                Aquí puedes colocar cualquier texto, aviso o instrucción que desees destacar para todo el personal. 
+                Este contenido aparece en el medio del panel y desplaza los sectores hacia abajo.
+            </p>
+>>>>>>> ea2c1fbed3a8bb3f5ecfb572d88edc72adcc8a60
 
-        <section class="section-block">
-            <div class="section-heading">
-                <div>
-                    <p class="eyebrow">ACCESOS DIRECTOS</p>
-                    <h2>Sectores habilitados</h2>
-                </div>
-            </div>
+        </section>
 
             <?php if (!$sectores): ?>
                 <div class="empty-state">Este usuario todavía no tiene sectores habilitados.</div>
