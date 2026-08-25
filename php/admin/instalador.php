@@ -21,6 +21,7 @@ try {
         ('Supervisor Finanzas', 'sup.finanzas@naser.com', '$passwordHash', 'supervisor', 1),
         ('Supervisor Compras', 'sup.compras@naser.com', '$passwordHash', 'supervisor', 1),
         ('Supervisor Gerencia', 'sup.gerencia@naser.com', '$passwordHash', 'supervisor', 1)");
+        ('Supervisor ventas', 'sup.ventas@naser.com', '$passwordHash', 'supervisor', 1)");
 
     // Asignar sectores a supervisores
     $pdo->exec("INSERT IGNORE INTO usuario_sector (usuario_id, sector_id) SELECT id, 1 FROM usuarios WHERE email = 'sup.seguridad@naser.com'");
@@ -30,6 +31,7 @@ try {
     $pdo->exec("INSERT IGNORE INTO usuario_sector (usuario_id, sector_id) SELECT id, 5 FROM usuarios WHERE email = 'sup.finanzas@naser.com'");
     $pdo->exec("INSERT IGNORE INTO usuario_sector (usuario_id, sector_id) SELECT id, 6 FROM usuarios WHERE email = 'sup.compras@naser.com'");
     $pdo->exec("INSERT IGNORE INTO usuario_sector (usuario_id, sector_id) SELECT id, 7 FROM usuarios WHERE email = 'sup.gerencia@naser.com'");
+    $pdo->exec("INSERT IGNORE INTO usuario_sector (usuario_id, sector_id) SELECT id, 8 FROM usuarios WHERE email = 'sup.ventas@naser.com'");
 
     // 4. Insertar 20 usuarios generales
     for ($i = 1; $i <= 20; $i++) {
