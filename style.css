@@ -1936,3 +1936,44 @@ table tbody tr:hover {
         grid-template-columns: 1fr;
     }
 }
+<<<<<<< HEAD
+=======
+/* =========================================================
+   BLOQUE DE TEXTO INTERMEDIO (PANEL PRINCIPAL)
+========================================================= */
+
+.info-intermedia {
+    margin-top: 25px;
+    margin-bottom: 45px;
+    padding: 25px 30px;
+    background: var(--blanco);
+    border: 1px solid var(--gris-borde);
+    border-left: 5px solid var(--verde-fuerte);
+    border-radius: 12px;
+    box-shadow: var(--sombra-suave);
+}
+
+.info-intermedia small {
+    display: block;
+    color: var(--verde-fuerte);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.info-intermedia h2 {
+    color: var(--texto);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.info-intermedia p {
+    color: var(--texto-secundario);
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0;
+}
+>>>>>>> 84d839f953bb3facca936df7f71049cfe6e1691f

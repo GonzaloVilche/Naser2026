@@ -62,6 +62,19 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
             <p class="eyebrow">GESTIÓN CENTRALIZADA</p>
             <h2>Documentación y procedimientos por sector</h2>
             <p>Ingresá directamente al área que necesites. Los accesos se habilitan según el usuario.</p>
+<<<<<<< HEAD
+=======
+        </section>
+
+        <!-- SECCIÓN INTERMEDIA: BLOQUE DE TEXTO O NOVEDADES -->
+        <section class="info-intermedia">
+            <small>INFORMACIÓN GENERAL</small>
+            <h2>Título del comunicado o información relevante</h2>
+            <p>
+                Aquí puedes colocar cualquier texto, aviso o instrucción que desees destacar para todo el personal. 
+                Este contenido aparece en el medio del panel y desplaza los sectores hacia abajo.
+            </p>
+>>>>>>> 84d839f953bb3facca936df7f71049cfe6e1691f
         </section>
 
         <section class="section-block">
