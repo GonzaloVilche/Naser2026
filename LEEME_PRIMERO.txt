@@ -33,3 +33,7 @@ CORRECCIONES INCLUIDAS
 
 DESPUÉS DE QUE FUNCIONE
 No vuelvas a importar database.sql porque recrea las tablas.
+<<<<<<< HEAD
+.....
+=======
+>>>>>>> 84d839f953bb3facca936df7f71049cfe6e1691f
