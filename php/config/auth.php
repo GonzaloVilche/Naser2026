@@ -33,18 +33,33 @@ function requireLogin(): void {
 function requireAdmin(): void {
     requireLogin();
 
-    if (($_SESSION['rol'] ?? '') !== 'admin') {
+    $rol = $_SESSION['rol'] ?? '';
+    if (!in_array($rol, ['admin', 'coordinador'], true)) {
         http_response_code(403);
-        exit('Acceso denegado.');
+        exit('Acceso denegado. Se requieren permisos de administración.');
     }
 }
 
-function userHasSectorAccess(PDO $pdo, int $userId, int $sectorId, string $role): bool {
-    if ($role === 'admin') {
+function canUserDo(PDO $pdo, int $userId, string $role, int $sectorId, string $accion): bool {
+    if (in_array($role, ['admin', 'coordinador'], true)) {
         return true;
     }
 
     $stmt = $pdo->prepare('SELECT 1 FROM usuario_sector WHERE usuario_id = ? AND sector_id = ? LIMIT 1');
     $stmt->execute([$userId, $sectorId]);
-    return (bool) $stmt->fetchColumn();
+    $tieneSector = (bool) $stmt->fetchColumn();
+
+    if (!$tieneSector) {
+        return false;
+    }
+
+    if ($role === 'supervisor') {
+        return in_array($accion, ['ver', 'crear', 'editar', 'eliminar'], true);
+    }
+
+    if ($role === 'usuario') {
+        return in_array($accion, ['ver', 'crear'], true);
+    }
+
+    return false;
 }
