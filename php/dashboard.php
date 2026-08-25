@@ -58,67 +58,50 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
             <div class="user-chip"><?= htmlspecialchars($_SESSION['nombre']) ?></div>
         </header>
 
+        <!-- BANNER DE INFORMACIÓN CON IMAGEN -->
         <section class="info-intermedia info-banner">
-    <div class="info-content">
-        <small>INFORMACIÓN GENERAL</small>
-        <h2>Título de la sección</h2>
-        <p>Escribe aquí una breve descripción o aviso relevante para los usuarios.</p>
-        <a href="#" class="btn-banner">Ver más información <span>→</span></a>
-    </div>
-    <div class="info-image">
-        <img src="ruta-de-tu-imagen.png" alt="Ilustración">
-    </div>
-</section>
-
-        <!-- SECCIÓN INTERMEDIA: BLOQUE DE TEXTO O NOVEDADES -->
-        <section class="info-intermedia">
-         <small>INFORMACIÓN GENERAL</small>
-         <h2>Política de Calidad Ambiente Seguridad y Salud </h2>
-          <p> Ofrece soluciones a la industria hidrocarburífera mediante operaciones de Slick Line, Well Testing y Flow Back, impulsando el uso de tecnología y mejores prácticas. </p>
-           
-          <p> Realizamos nuestro trabajo creando una cultura de seguridad generativa, con foco en la protección de la salud y seguridad de las personas, el cuidado del ambiente, la integridad de activos, la calidad de los servicios y el uso eficiente de recursos. Para lograr nuestros objetivos, asumimos los siguientes compromisos:</p>
-         <p>
-          • Implementar, mantener y mejorar un sistema de gestión integrado, basado en la calidad del servicio, la protección ambiental, la seguridad y salud en el trabajo.
-        </p>
-         <p>
-         • Aplicar la mejora continua a los procesos de trabajo para satisfacer las necesidades de nuestros clientes, mejorar el desempeño ambiental, en seguridad y salud.
-         </p>
-         <p>
-         • Cumplir con los requisitos legales y normativos aplicables, de clientes y partes interesadas.
-         </p>
-         <p>
-         • Formar a nuestro personal y promover el compromiso en la prevención de incidentes, enfermedades profesionales y contaminación ambiental.
-         </p>
-         <p>
-         • Proporcionar un ambiente de trabajo seguro y saludable.
-         </p>
-         <p>
-         • Planificar las tareas para lograr propósitos definidos, eliminar peligros y reducir riesgos a la salud y seguridad de las personas, manteniendo vías para la consulta y participación.
-        </p>
-         <p>
-         • Llevar adelante nuestros procesos con ética y transparencia.
-         </p>
-         <p>
-         • Garantizar el derecho y autoridad a detener cualquier tarea que se considere insegura.
-         </p>
-         <p>
-         • Prohibir el consumo de estupefacientes en nuestros procesos e instalaciones.
-         </p>
-         <p>
-         • Conducir vehículos propios y de contratistas en forma segura.
-         </p>
-         <p>
-         • Comunicar esta política a nuestro personal, clientes y partes interesadas.
-         </p>
+            <div class="info-content">
+                <small>INFORMACIÓN GENERAL</small>
+                <h2>Título de la sección</h2>
+                <p>Escribe aquí una breve descripción o aviso relevante para los usuarios.</p>
+                <a href="#" class="btn-banner">Ver más información <span>→</span></a>
+            </div>
+            <div class="info-image">
+                <!-- REVISA QUE LA RUTA TENGA LA EXTENSIÓN CORRECTA (.jpg, .png, etc.) -->
+                <img src="uploads/trabajador-slickline.jpg" alt="Trabajador Slickline">
+            </div>
         </section>
-       <section class="hero-panel">
+
+        <!-- SECCIÓN DE POLÍTICA DE CALIDAD -->
+        <section class="info-intermedia">
+            <small>INFORMACIÓN GENERAL</small>
+            <h2>Política de Calidad, Ambiente, Seguridad y Salud</h2>
+            <p>Ofrece soluciones a la industria hidrocarburífera mediante operaciones de Slick Line, Well Testing y Flow Back, impulsando el uso de tecnología y mejores prácticas.</p>
+            <p>Realizamos nuestro trabajo creando una cultura de seguridad generativa, con foco en la protección de la salud y seguridad de las personas, el cuidado del ambiente, la integridad de activos, la calidad de los servicios y el uso eficiente de recursos. Para lograr nuestros objetivos, asumimos los siguientes compromisos:</p>
+            
+            <ul style="margin-top: 10px; padding-left: 20px; color: var(--texto-secundario); line-height: 1.6;">
+                <li>Implementar, mantener y mejorar un sistema de gestión integrado, basado en la calidad del servicio, la protección ambiental, la seguridad y salud en el trabajo.</li>
+                <li>Aplicar la mejora continua a los procesos de trabajo para satisfacer las necesidades de nuestros clientes, mejorar el desempeño ambiental, en seguridad y salud.</li>
+                <li>Cumplir con los requisitos legales y normativos aplicables, de clientes y partes interesadas.</li>
+                <li>Formar a nuestro personal y promover el compromiso en la prevención de incidentes, enfermedades profesionales y contaminación ambiental.</li>
+                <li>Proporcionar un ambiente de trabajo seguro y saludable.</li>
+                <li>Planificar las tareas para lograr propósitos definidos, eliminar peligros y reducir riesgos a la salud y seguridad de las personas, manteniendo vías para la consulta y participación.</li>
+                <li>Llevar adelante nuestros procesos con ética y transparencia.</li>
+                <li>Garantizar el derecho y autoridad a detener cualquier tarea que se considere insegura.</li>
+                <li>Prohibir el consumo de estupefacientes en nuestros procesos e instalaciones.</li>
+                <li>Conducir vehículos propios y de contratistas en forma segura.</li>
+                <li>Comunicar esta política a nuestro personal, clientes y partes interesadas.</li>
+            </ul>
+        </section>
+
+        <!-- ENCABEZADO Y SECTORES HABILITADOS -->
+        <section class="hero-panel">
             <p class="eyebrow">GESTIÓN CENTRALIZADA</p>
             <h2>Documentación y procedimientos por sector</h2>
             <p>Ingresá directamente al área que necesites. Los accesos se habilitan según el usuario.</p>
-
-        </section>
         </section>
 
+        <section class="section-block">
             <?php if (!$sectores): ?>
                 <div class="empty-state">Este usuario todavía no tiene sectores habilitados.</div>
             <?php else: ?>
