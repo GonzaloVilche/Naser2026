@@ -66,12 +66,44 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
 
         <!-- SECCIÓN INTERMEDIA: BLOQUE DE TEXTO O NOVEDADES -->
         <section class="info-intermedia">
-            <small>INFORMACIÓN GENERAL</small>
-            <h2>Título del comunicado o información relevante</h2>
-            <p>
-                Aquí puedes colocar cualquier texto, aviso o instrucción que desees destacar para todo el personal. 
-                Este contenido aparece en el medio del panel y desplaza los sectores hacia abajo.
-            </p>
+         <small>INFORMACIÓN GENERAL</small>
+         <h2>Política de Calidad Ambiente Seguridad y Salud </h2>
+          <p> ofrece soluciones a la industria hidrocarburífera mediante operaciones de Slick Line, Well Testing y Flow Back, impulsando el uso de tecnología y mejores prácticas. </p>
+           
+          <p> Realizamos nuestro trabajo creando una cultura de seguridad generativa, con foco en la protección de la salud y seguridad de las personas, el cuidado del ambiente, la integridad de activos, la calidad de los servicios y el uso eficiente de recursos. Para lograr nuestros objetivos, asumimos los siguientes compromisos:</p>
+         <p>
+          • Implementar, mantener y mejorar un sistema de gestión integrado, basado en la calidad del servicio, la protección ambiental, la seguridad y salud en el trabajo.
+        </p>
+         <p>
+         • Aplicar la mejora continua a los procesos de trabajo para satisfacer las necesidades de nuestros clientes, mejorar el desempeño ambiental, en seguridad y salud.
+         </p>
+         <p>
+         • Cumplir con los requisitos legales y normativos aplicables, de clientes y partes interesadas.
+         </p>
+         <p>
+         • Formar a nuestro personal y promover el compromiso en la prevención de incidentes, enfermedades profesionales y contaminación ambiental.
+         </p>
+         <p>
+         • Proporcionar un ambiente de trabajo seguro y saludable.
+         </p>
+         <p>
+         • Planificar las tareas para lograr propósitos definidos, eliminar peligros y reducir riesgos a la salud y seguridad de las personas, manteniendo vías para la consulta y participación.
+        </p>
+         <p>
+         • Llevar adelante nuestros procesos con ética y transparencia.
+         </p>
+         <p>
+         • Garantizar el derecho y autoridad a detener cualquier tarea que se considere insegura.
+         </p>
+         <p>
+         • Prohibir el consumo de estupefacientes en nuestros procesos e instalaciones.
+         </p>
+         <p>
+         • Conducir vehículos propios y de contratistas en forma segura.
+         </p>
+         <p>
+         • Comunicar esta política a nuestro personal, clientes y partes interesadas.
+         </p>
         </section>
 
         <section class="section-block">
