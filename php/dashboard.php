@@ -58,7 +58,7 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
             <div class="user-chip"><?= htmlspecialchars($_SESSION['nombre']) ?></div>
         </header>
 
-        <!-- BANNER DE INFORMACIÓN CON IMAGEN -->
+        <!-- BANNER DE INFORMACIÓN CON IMAGEN INTERACTIVA PEQUEÑA -->
         <section class="info-intermedia info-banner">
             <div class="info-content">
                 <small>INFORMACIÓN GENERAL</small>
@@ -67,8 +67,10 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
                 <a href="#" class="btn-banner">Ver más información <span>→</span></a>
             </div>
             <div class="info-image">
-                <!-- REVISA QUE LA RUTA TENGA LA EXTENSIÓN CORRECTA (.jpg, .png, etc.) -->
-                <img src="uploads/trabajador-slickline.jpg" alt="Trabajador Slickline">
+                <!-- IMAGEN PRESIONABLE: Ajusta la ruta a ../uploads/ si tu PHP está dentro de una subcarpeta -->
+                <a href="../uploads/trabajador-slickline.png" target="_blank" class="img-link">
+                    <img src="../uploads/trabajador-slickline.png" alt="Trabajador Slickline" onerror="this.src='../uploads/trabajador-slickline.jpg';">
+                </a>
             </div>
         </section>
 
