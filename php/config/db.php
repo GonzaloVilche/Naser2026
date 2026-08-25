@@ -15,5 +15,5 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (PDOException $e) {
-    exit('Error de conexión a la base de datos: ' . $e->getMessage());
+    exit('Error de conexión a la base de datos: ' . htmlspecialchars($e->getMessage()));
 }

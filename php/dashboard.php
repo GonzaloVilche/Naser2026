@@ -3,10 +3,10 @@ require __DIR__ . '/config/auth.php';
 requireLogin();
 require __DIR__ . '/config/db.php';
 
-$stmt = $pdo->query('SELECT id, nombre, slug FROM sectores ORDER BY orden, nombre');
-$sectores = $stmt->fetchAll();
-
-if (($_SESSION['rol'] ?? '') !== 'admin') {
+if (($_SESSION['rol'] ?? '') === 'admin') {
+    $stmt = $pdo->query('SELECT id, nombre, slug FROM sectores ORDER BY orden, nombre');
+    $sectores = $stmt->fetchAll();
+} else {
     $stmt = $pdo->prepare('SELECT s.id, s.nombre, s.slug FROM sectores s INNER JOIN usuario_sector us ON us.sector_id = s.id WHERE us.usuario_id = ? ORDER BY s.orden, s.nombre');
     $stmt->execute([$_SESSION['usuario_id']]);
     $sectores = $stmt->fetchAll();
@@ -22,28 +22,34 @@ if (($_SESSION['rol'] ?? '') !== 'admin') {
 </head>
 <body>
 <div class="app-shell">
-    <aside class="sidebar">
+    <aside class="php-sidebar">
         <div class="logo-box">
             <div class="brand">NASER <span>SRL</span></div>
             <small>Sistema de Gestión Integrado</small>
         </div>
+
         <a class="nav-link active" href="dashboard.php">Inicio</a>
+
         <?php foreach ($sectores as $sector): ?>
-            <a class="nav-link" href="sector.php?sector=<?= urlencode($sector['slug']) ?>"><?= htmlspecialchars($sector['nombre']) ?></a>
+            <a class="nav-link" href="sector.php?sector=<?= urlencode($sector['slug']) ?>">
+                <?= htmlspecialchars($sector['nombre']) ?>
+            </a>
         <?php endforeach; ?>
+
         <?php if (($_SESSION['rol'] ?? '') === 'admin'): ?>
             <div class="nav-separator"></div>
             <a class="nav-link" href="admin/usuarios.php">Usuarios</a>
             <a class="nav-link" href="admin/documentos.php">Administrar documentos</a>
         <?php endif; ?>
-        <div class="sidebar-user">
+
+        <div class="php-sidebar-user">
             <strong><?= htmlspecialchars($_SESSION['nombre']) ?></strong>
-            <small><?= htmlspecialchars($_SESSION['rol']) ?></small>
+            <small><?= htmlspecialchars(ucfirst($_SESSION['rol'])) ?></small>
             <a href="logout.php">Cerrar sesión</a>
         </div>
     </aside>
 
-    <main class="content">
+    <main class="php-content">
         <header class="topbar">
             <div>
                 <p class="eyebrow">SERVICIOS NASER SRL</p>
@@ -53,11 +59,9 @@ if (($_SESSION['rol'] ?? '') !== 'admin') {
         </header>
 
         <section class="hero-panel">
-            <div>
-                <p class="eyebrow">GESTIÓN CENTRALIZADA</p>
-                <h2>Documentación y procedimientos por sector</h2>
-                <p>Ingresá directamente al área que necesites. Los accesos se habilitan según el usuario.</p>
-            </div>
+            <p class="eyebrow">GESTIÓN CENTRALIZADA</p>
+            <h2>Documentación y procedimientos por sector</h2>
+            <p>Ingresá directamente al área que necesites. Los accesos se habilitan según el usuario.</p>
         </section>
 
         <section class="section-block">
@@ -68,18 +72,22 @@ if (($_SESSION['rol'] ?? '') !== 'admin') {
                 </div>
             </div>
 
-            <div class="sector-grid">
-                <?php foreach ($sectores as $sector): ?>
-                    <article class="sector-card">
-                        <div class="sector-icon"><?= htmlspecialchars(strtoupper(substr($sector['nombre'], 0, 2))) ?></div>
-                        <h3><?= htmlspecialchars($sector['nombre']) ?></h3>
-                        <div class="quick-links">
-                            <a href="sector.php?sector=<?= urlencode($sector['slug']) ?>&tipo=documentacion">Documentación <span>→</span></a>
-                            <a href="sector.php?sector=<?= urlencode($sector['slug']) ?>&tipo=procedimiento">Procedimientos <span>→</span></a>
-                        </div>
-                    </article>
-                <?php endforeach; ?>
-            </div>
+            <?php if (!$sectores): ?>
+                <div class="empty-state">Este usuario todavía no tiene sectores habilitados.</div>
+            <?php else: ?>
+                <div class="sector-grid">
+                    <?php foreach ($sectores as $sector): ?>
+                        <article class="sector-card">
+                            <div class="sector-letter"><?= htmlspecialchars(strtoupper(substr($sector['nombre'], 0, 2))) ?></div>
+                            <h3><?= htmlspecialchars($sector['nombre']) ?></h3>
+                            <div class="quick-links">
+                                <a href="sector.php?sector=<?= urlencode($sector['slug']) ?>&tipo=documentacion">Documentación <span>→</span></a>
+                                <a href="sector.php?sector=<?= urlencode($sector['slug']) ?>&tipo=procedimiento">Procedimientos <span>→</span></a>
+                            </div>
+                        </article>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
         </section>
     </main>
 </div>

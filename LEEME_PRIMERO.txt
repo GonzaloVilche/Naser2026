@@ -1,0 +1,36 @@
+NASER 2026 - PHP CORREGIDO
+==========================
+
+Este paquete está preparado para tu carpeta:
+C:\xampp\htdocs\Naser2026\
+
+NO reemplaza tu index.html ni tus imágenes.
+Solo contiene:
+- style.css actualizado/unificado
+- carpeta php/ corregida
+
+PASOS
+1) Cerrá o detené Apache/MySQL solo si preferís trabajar con los archivos sin uso (no es obligatorio).
+2) Dentro de C:\xampp\htdocs\Naser2026\ reemplazá la carpeta php/ por la carpeta php/ de este paquete.
+3) Reemplazá tu style.css por el style.css de este paquete.
+4) Abrí XAMPP y encendé Apache y MySQL.
+5) Entrá a http://localhost/phpmyadmin/
+6) Importá UNA VEZ: C:\xampp\htdocs\Naser2026\php\database.sql
+   IMPORTANTE: esta versión recrea las tablas y borra los datos de prueba anteriores.
+7) Abrí http://localhost/Naser2026/php/
+
+USUARIO INICIAL
+Correo: admin@naser.com
+Contraseña: admin123
+
+CORRECCIONES INCLUIDAS
+- Hash correcto para admin123.
+- CSS desde Naser2026/style.css.
+- Rutas correctas desde php/admin/.
+- Redirección al login correcta desde cualquier subcarpeta PHP.
+- database.sql se puede volver a importar durante esta instalación sin error "tabla ya existe".
+- Gestión de usuarios, permisos y documentos.
+
+DESPUÉS DE QUE FUNCIONE
+No vuelvas a importar database.sql porque recrea las tablas.
+.....
