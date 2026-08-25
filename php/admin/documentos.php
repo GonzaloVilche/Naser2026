@@ -8,38 +8,15 @@ require __DIR__ . '/../config/db.php';
 $mensaje = '';
 $error = '';
 
-/*
-|--------------------------------------------------------------------------
-| CARPETA DE ARCHIVOS
-|--------------------------------------------------------------------------
-| documentos.php está dentro de php/admin/
-| Por eso usamos ../../uploads/
-*/
-
 $carpetaUploads = __DIR__ . '/../../uploads/';
 
-// Crear carpeta automáticamente si no existe
 if (!is_dir($carpetaUploads)) {
     mkdir($carpetaUploads, 0777, true);
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| PROCESAR FORMULARIO
-|--------------------------------------------------------------------------
-*/
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $accion = $_POST['accion'] ?? 'crear';
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | ELIMINAR DOCUMENTO
-    |--------------------------------------------------------------------------
-    */
 
     if ($accion === 'eliminar') {
 
@@ -50,13 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
 
         $stmt->execute([$id]);
-
         $doc = $stmt->fetch();
-
 
         if ($doc) {
 
-            // Borrar archivo físico
             if (!empty($doc['archivo'])) {
 
                 $rutaArchivo = $carpetaUploads . basename($doc['archivo']);
@@ -66,8 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-
-            // Borrar de la base de datos
             $stmt = $pdo->prepare(
                 'DELETE FROM documentos WHERE id = ?'
             );
@@ -77,41 +49,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mensaje = 'Documento eliminado correctamente.';
         }
 
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | CREAR DOCUMENTO
-    |--------------------------------------------------------------------------
-    */
-
-    else {
+    } else {
 
         $titulo = trim($_POST['titulo'] ?? '');
         $descripcion = trim($_POST['descripcion'] ?? '');
-
         $tipo = $_POST['tipo'] ?? 'documentacion';
-
         $sectorId = (int)($_POST['sector_id'] ?? 0);
 
-
-        // Validar tipo
-        if (!in_array(
-            $tipo,
-            ['documentacion', 'procedimiento'],
-            true
-        )) {
-
+        if (!in_array($tipo, ['documentacion', 'procedimiento'], true)) {
             $tipo = 'documentacion';
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | VALIDACIONES
-        |--------------------------------------------------------------------------
-        */
 
         if ($titulo === '') {
 
@@ -129,13 +76,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Seleccioná un archivo para cargar.';
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | GUARDAR ARCHIVO
-        |--------------------------------------------------------------------------
-        */
-
         if ($error === '') {
 
             $nombreOriginal = $_FILES['archivo']['name'];
@@ -146,7 +86,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     PATHINFO_EXTENSION
                 )
             );
-
 
             $permitidos = [
                 'pdf',
@@ -159,31 +98,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'png'
             ];
 
-
             if (!in_array($extension, $permitidos, true)) {
 
                 $error = 'Formato de archivo no permitido.';
 
             } else {
 
-                /*
-                |--------------------------------------------------------------------------
-                | CREAR NOMBRE SEGURO
-                |--------------------------------------------------------------------------
-                */
-
                 $nombreSinExtension = pathinfo(
                     $nombreOriginal,
                     PATHINFO_FILENAME
                 );
-
 
                 $nombreSeguro = preg_replace(
                     '/[^a-zA-Z0-9_-]/',
                     '_',
                     $nombreSinExtension
                 );
-
 
                 $archivo =
                     time()
@@ -192,17 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     . '.'
                     . $extension;
 
-
-                $destino =
-                    $carpetaUploads
-                    . $archivo;
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | MOVER ARCHIVO
-                |--------------------------------------------------------------------------
-                */
+                $destino = $carpetaUploads . $archivo;
 
                 if (
                     move_uploaded_file(
@@ -210,12 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $destino
                     )
                 ) {
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | GUARDAR EN MYSQL
-                    |--------------------------------------------------------------------------
-                    */
 
                     $stmt = $pdo->prepare(
                         'INSERT INTO documentos
@@ -240,7 +154,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         )'
                     );
 
-
                     $stmt->execute([
                         $sectorId,
                         $titulo,
@@ -249,40 +162,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $archivo
                     ]);
 
-
-                    $mensaje =
-                        'Documento cargado correctamente.';
-
+                    $mensaje = 'Documento cargado correctamente.';
 
                 } else {
 
-                    $error =
-                        'No se pudo guardar el archivo en la carpeta uploads.';
+                    $error = 'No se pudo guardar el archivo.';
                 }
             }
         }
     }
 }
 
-
-/*
-|--------------------------------------------------------------------------
-| CARGAR SECTORES
-|--------------------------------------------------------------------------
-*/
-
 $sectores = $pdo->query(
     'SELECT id, nombre
      FROM sectores
      ORDER BY orden, nombre'
 )->fetchAll();
-
-
-/*
-|--------------------------------------------------------------------------
-| CARGAR DOCUMENTOS
-|--------------------------------------------------------------------------
-*/
 
 $docs = $pdo->query(
     'SELECT
@@ -328,14 +223,9 @@ $docs = $pdo->query(
 
 </head>
 
-
 <body>
 
-
 <main class="standalone">
-
-
-    <!-- VOLVER -->
 
     <a
         class="back-link"
@@ -344,9 +234,6 @@ $docs = $pdo->query(
         ← Volver al panel
     </a>
 
-
-
-    <!-- ENCABEZADO -->
 
     <div class="section-heading spaced">
 
@@ -369,15 +256,10 @@ $docs = $pdo->query(
     </div>
 
 
-
-    <!-- MENSAJES -->
-
     <?php if ($mensaje): ?>
 
         <div class="alert success">
-
             <?= htmlspecialchars($mensaje) ?>
-
         </div>
 
     <?php endif; ?>
@@ -386,19 +268,14 @@ $docs = $pdo->query(
     <?php if ($error): ?>
 
         <div class="alert error">
-
             <?= htmlspecialchars($error) ?>
-
         </div>
 
     <?php endif; ?>
 
 
-
     <section class="admin-grid">
 
-
-        <!-- CARGAR -->
 
         <div class="panel-card">
 
@@ -412,7 +289,6 @@ $docs = $pdo->query(
                 enctype="multipart/form-data"
                 class="form-grid"
             >
-
 
                 <input
                     type="hidden"
@@ -434,7 +310,6 @@ $docs = $pdo->query(
                 </label>
 
 
-
                 <label>
 
                     Descripción
@@ -445,7 +320,6 @@ $docs = $pdo->query(
                     ></textarea>
 
                 </label>
-
 
 
                 <label>
@@ -464,21 +338,15 @@ $docs = $pdo->query(
 
                         <?php foreach ($sectores as $s): ?>
 
-                            <option
-                                value="<?= (int)$s['id'] ?>"
-                            >
-
+                            <option value="<?= (int)$s['id'] ?>">
                                 <?= htmlspecialchars($s['nombre']) ?>
-
                             </option>
 
                         <?php endforeach; ?>
 
-
                     </select>
 
                 </label>
-
 
 
                 <label>
@@ -500,7 +368,6 @@ $docs = $pdo->query(
                 </label>
 
 
-
                 <label>
 
                     Archivo
@@ -515,27 +382,19 @@ $docs = $pdo->query(
                 </label>
 
 
-
                 <button
                     class="btn primary"
                     type="submit"
                 >
-
                     Guardar documento
-
                 </button>
-
 
             </form>
 
         </div>
 
 
-
-        <!-- DOCUMENTOS CARGADOS -->
-
         <div class="panel-card">
-
 
             <h2>
                 Archivos cargados
@@ -544,30 +403,20 @@ $docs = $pdo->query(
 
             <div class="table-wrap">
 
-
                 <table>
-
 
                     <thead>
 
                         <tr>
-
                             <th>Título</th>
-
                             <th>Sector</th>
-
                             <th>Tipo</th>
-
                             <th>Fecha</th>
-
                             <th>Archivo</th>
-
                             <th>Acción</th>
-
                         </tr>
 
                     </thead>
-
 
 
                     <tbody>
@@ -578,9 +427,7 @@ $docs = $pdo->query(
                         <tr>
 
                             <td colspan="6">
-
                                 Todavía no hay documentos cargados.
-
                             </td>
 
                         </tr>
@@ -588,44 +435,48 @@ $docs = $pdo->query(
                     <?php endif; ?>
 
 
-
                     <?php foreach ($docs as $d): ?>
+
+                        <?php
+
+                        $extension = strtolower(
+                            pathinfo(
+                                $d['archivo'] ?? '',
+                                PATHINFO_EXTENSION
+                            )
+                        );
+
+                        $rutaArchivo =
+                            '../../uploads/'
+                            . rawurlencode($d['archivo'] ?? '');
+
+                        ?>
 
 
                         <tr>
 
-
                             <td>
-
                                 <?= htmlspecialchars($d['titulo']) ?>
-
                             </td>
 
 
                             <td>
-
                                 <?= htmlspecialchars($d['sector']) ?>
-
                             </td>
 
 
                             <td>
-
                                 <?= htmlspecialchars(
                                     ucfirst($d['tipo'])
                                 ) ?>
-
                             </td>
 
 
                             <td>
-
                                 <?= htmlspecialchars(
                                     $d['fecha_actualizacion']
                                 ) ?>
-
                             </td>
-
 
 
                             <td>
@@ -633,31 +484,56 @@ $docs = $pdo->query(
                                 <?php if (!empty($d['archivo'])): ?>
 
 
-                                    <a
-                                        class="text-button"
-                                        href="../../uploads/<?= rawurlencode($d['archivo']) ?>"
-                                        target="_blank"
-                                    >
+                                    <div class="document-actions">
 
-                                        Ver archivo
 
-                                    </a>
+                                        <?php if (
+                                            in_array(
+                                                $extension,
+                                                ['pdf', 'jpg', 'jpeg', 'png'],
+                                                true
+                                            )
+                                        ): ?>
+
+                                            <button
+                                                type="button"
+                                                class="btn-preview"
+                                                onclick="abrirVistaPrevia(
+                                                    '<?= $rutaArchivo ?>',
+                                                    '<?= htmlspecialchars(
+                                                        $d['titulo'],
+                                                        ENT_QUOTES
+                                                    ) ?>'
+                                                )"
+                                            >
+                                                👁 Vista previa
+                                            </button>
+
+                                        <?php endif; ?>
+
+
+                                        <a
+                                            class="btn-open"
+                                            href="<?= $rutaArchivo ?>"
+                                            target="_blank"
+                                        >
+                                            ↗ Abrir
+                                        </a>
+
+
+                                    </div>
 
 
                                 <?php else: ?>
 
-
                                     Sin archivo
-
 
                                 <?php endif; ?>
 
                             </td>
 
 
-
                             <td>
-
 
                                 <form
                                     method="post"
@@ -676,44 +552,130 @@ $docs = $pdo->query(
                                         value="<?= (int)$d['id'] ?>"
                                     >
 
-
                                     <button
-                                        class="text-button danger"
+                                        class="btn-delete"
                                         type="submit"
                                     >
-
-                                        Eliminar
-
+                                        🗑 Eliminar
                                     </button>
-
 
                                 </form>
 
-
                             </td>
 
-
                         </tr>
-
 
                     <?php endforeach; ?>
 
 
                     </tbody>
 
-
                 </table>
-
 
             </div>
 
         </div>
 
-
     </section>
 
-
 </main>
+
+
+<div
+    id="modalPreview"
+    class="modal-preview"
+>
+
+    <div class="modal-contenido">
+
+        <div class="modal-header">
+
+            <h3 id="tituloPreview">
+                Vista previa
+            </h3>
+
+            <button
+                type="button"
+                class="cerrar-modal"
+                onclick="cerrarVistaPrevia()"
+            >
+                ✕
+            </button>
+
+        </div>
+
+
+        <iframe
+            id="previewFrame"
+            src=""
+        ></iframe>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function abrirVistaPrevia(ruta, titulo) {
+
+    document.getElementById(
+        'previewFrame'
+    ).src = ruta;
+
+    document.getElementById(
+        'tituloPreview'
+    ).textContent = titulo;
+
+    document.getElementById(
+        'modalPreview'
+    ).style.display = 'flex';
+
+}
+
+
+function cerrarVistaPrevia() {
+
+    document.getElementById(
+        'modalPreview'
+    ).style.display = 'none';
+
+    document.getElementById(
+        'previewFrame'
+    ).src = '';
+
+}
+
+
+window.addEventListener(
+    'click',
+    function(event) {
+
+        const modal =
+            document.getElementById(
+                'modalPreview'
+            );
+
+        if (event.target === modal) {
+            cerrarVistaPrevia();
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    'keydown',
+    function(event) {
+
+        if (event.key === 'Escape') {
+            cerrarVistaPrevia();
+        }
+
+    }
+);
+
+</script>
 
 
 </body>

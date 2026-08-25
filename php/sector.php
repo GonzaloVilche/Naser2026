@@ -8,7 +8,7 @@ require __DIR__ . '/config/db.php';
 $slug = trim($_GET['sector'] ?? '');
 $tipo = trim($_GET['tipo'] ?? '');
 
-// Buscar el sector
+
 $stmt = $pdo->prepare(
     'SELECT id, nombre, slug
      FROM sectores
@@ -20,46 +20,50 @@ $stmt->execute([$slug]);
 
 $sector = $stmt->fetch();
 
-// Si no existe el sector
+
 if (!$sector) {
+
     http_response_code(404);
+
     exit('Sector no encontrado.');
 }
 
 
 /*
 |--------------------------------------------------------------------------
-| PERMISOS DEL SECTOR
+| FILTRO DE DOCUMENTOS
 |--------------------------------------------------------------------------
-|
-| Por ahora NO usamos userHasSectorAccess() porque esa función
-| todavía no está definida.
-|
-| Cuando terminen el sistema de usuarios y permisos podemos
-| volver a activarlo correctamente.
-|
 */
 
+$params = [
+    $sector['id']
+];
 
-// Parámetros de búsqueda
-$params = [$sector['id']];
 
 $sql = '
-    SELECT 
+    SELECT
         id,
         titulo,
         descripcion,
         tipo,
         archivo,
         fecha_actualizacion
+
     FROM documentos
+
     WHERE sector_id = ?
+
     AND activo = 1
 ';
 
 
-// Filtrar por tipo
-if (in_array($tipo, ['documentacion', 'procedimiento'], true)) {
+if (
+    in_array(
+        $tipo,
+        ['documentacion', 'procedimiento'],
+        true
+    )
+) {
 
     $sql .= ' AND tipo = ?';
 
@@ -67,8 +71,12 @@ if (in_array($tipo, ['documentacion', 'procedimiento'], true)) {
 }
 
 
-// Ordenar documentos
-$sql .= ' ORDER BY fecha_actualizacion DESC, titulo';
+$sql .= '
+    ORDER BY
+    fecha_actualizacion DESC,
+    titulo
+';
+
 
 $stmt = $pdo->prepare($sql);
 
@@ -86,31 +94,38 @@ $documentos = $stmt->fetchAll();
 
     <meta charset="utf-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
 
     <title>
-        <?= htmlspecialchars($sector['nombre']) ?> | NASER SGI
+        <?= htmlspecialchars($sector['nombre']) ?>
+        | NASER SGI
     </title>
 
-    <link rel="stylesheet" href="../style.css">
+    <link
+        rel="stylesheet"
+        href="../style.css"
+    >
 
 </head>
 
 
 <body>
 
+
 <main class="standalone">
 
 
-    <!-- VOLVER -->
-
-    <a class="back-link" href="dashboard.php">
+    <a
+        class="back-link"
+        href="dashboard.php"
+    >
         ← Volver al panel
     </a>
 
 
-
-    <!-- ENCABEZADO -->
 
     <div class="section-heading spaced">
 
@@ -121,7 +136,9 @@ $documentos = $stmt->fetchAll();
             </p>
 
             <h1>
-                <?= htmlspecialchars($sector['nombre']) ?>
+                <?= htmlspecialchars(
+                    $sector['nombre']
+                ) ?>
             </h1>
 
             <p class="muted">
@@ -134,49 +151,36 @@ $documentos = $stmt->fetchAll();
 
 
 
-    <!-- FILTROS -->
-
     <div class="filter-row">
 
 
-        <!-- TODOS -->
-
         <a
             class="btn <?= $tipo === '' ? 'primary' : 'secondary' ?>"
-
-            href="sector.php?sector=<?= urlencode($sector['slug']) ?>"
+            href="sector.php?sector=<?= urlencode(
+                $sector['slug']
+            ) ?>"
         >
-
             Todo
-
         </a>
 
-
-
-        <!-- DOCUMENTACIÓN -->
 
         <a
             class="btn <?= $tipo === 'documentacion' ? 'primary' : 'secondary' ?>"
-
-            href="sector.php?sector=<?= urlencode($sector['slug']) ?>&tipo=documentacion"
+            href="sector.php?sector=<?= urlencode(
+                $sector['slug']
+            ) ?>&tipo=documentacion"
         >
-
             Documentación
-
         </a>
 
 
-
-        <!-- PROCEDIMIENTOS -->
-
         <a
             class="btn <?= $tipo === 'procedimiento' ? 'primary' : 'secondary' ?>"
-
-            href="sector.php?sector=<?= urlencode($sector['slug']) ?>&tipo=procedimiento"
+            href="sector.php?sector=<?= urlencode(
+                $sector['slug']
+            ) ?>&tipo=procedimiento"
         >
-
             Procedimientos
-
         </a>
 
 
@@ -184,20 +188,16 @@ $documentos = $stmt->fetchAll();
 
 
 
-    <!-- LISTADO DE DOCUMENTOS -->
-
     <div class="document-list">
 
 
         <?php if (!$documentos): ?>
-
 
             <div class="empty-state">
 
                 Todavía no hay archivos cargados en esta sección.
 
             </div>
-
 
         <?php endif; ?>
 
@@ -206,31 +206,56 @@ $documentos = $stmt->fetchAll();
         <?php foreach ($documentos as $doc): ?>
 
 
+            <?php
+
+            $extension = strtolower(
+                pathinfo(
+                    $doc['archivo'] ?? '',
+                    PATHINFO_EXTENSION
+                )
+            );
+
+
+            $rutaArchivo =
+                '../uploads/'
+                . rawurlencode(
+                    $doc['archivo'] ?? ''
+                );
+
+            ?>
+
+
             <article class="document-card">
 
-
-                <!-- INFORMACIÓN -->
 
                 <div>
 
 
                     <span class="badge">
 
-                        <?= htmlspecialchars(ucfirst($doc['tipo'])) ?>
+                        <?= htmlspecialchars(
+                            ucfirst(
+                                $doc['tipo']
+                            )
+                        ) ?>
 
                     </span>
 
 
                     <h3>
 
-                        <?= htmlspecialchars($doc['titulo']) ?>
+                        <?= htmlspecialchars(
+                            $doc['titulo']
+                        ) ?>
 
                     </h3>
 
 
                     <p>
 
-                        <?= htmlspecialchars($doc['descripcion'] ?? '') ?>
+                        <?= htmlspecialchars(
+                            $doc['descripcion'] ?? ''
+                        ) ?>
 
                     </p>
 
@@ -238,7 +263,10 @@ $documentos = $stmt->fetchAll();
                     <small>
 
                         Actualizado:
-                        <?= htmlspecialchars($doc['fecha_actualizacion']) ?>
+
+                        <?= htmlspecialchars(
+                            $doc['fecha_actualizacion']
+                        ) ?>
 
                     </small>
 
@@ -247,40 +275,51 @@ $documentos = $stmt->fetchAll();
 
 
 
-                <!-- BOTONES -->
-
                 <?php if (!empty($doc['archivo'])): ?>
 
 
                     <div class="document-actions">
 
 
-                        <!-- VISTA PREVIA -->
+                        <?php if (
+                            in_array(
+                                $extension,
+                                [
+                                    'pdf',
+                                    'jpg',
+                                    'jpeg',
+                                    'png'
+                                ],
+                                true
+                            )
+                        ): ?>
+
+
+                            <button
+                                type="button"
+                                class="btn-preview"
+                                onclick="abrirVistaPrevia(
+                                    '<?= $rutaArchivo ?>',
+                                    '<?= htmlspecialchars(
+                                        $doc['titulo'],
+                                        ENT_QUOTES
+                                    ) ?>'
+                                )"
+                            >
+                                👁 Vista previa
+                            </button>
+
+
+                        <?php endif; ?>
+
+
 
                         <a
-                            class="btn primary"
-
-                            href="vista_previa.php?archivo=<?= urlencode($doc['archivo']) ?>"
-                        >
-
-                            👁 Vista previa
-
-                        </a>
-
-
-
-                        <!-- DESCARGAR / ABRIR -->
-
-                        <a
-                            class="btn secondary"
-
-                            href="../uploads/<?= rawurlencode($doc['archivo']) ?>"
-
+                            class="btn-open"
+                            href="<?= $rutaArchivo ?>"
                             target="_blank"
                         >
-
-                            Abrir archivo
-
+                            ↗ Abrir
                         </a>
 
 
@@ -300,6 +339,129 @@ $documentos = $stmt->fetchAll();
 
 
 </main>
+
+
+
+<!-- VISTA PREVIA -->
+
+<div
+    id="modalPreview"
+    class="modal-preview"
+>
+
+    <div class="modal-contenido">
+
+
+        <div class="modal-header">
+
+
+            <h3 id="tituloPreview">
+                Vista previa
+            </h3>
+
+
+            <button
+                type="button"
+                class="cerrar-modal"
+                onclick="cerrarVistaPrevia()"
+            >
+                ✕
+            </button>
+
+
+        </div>
+
+
+
+        <iframe
+            id="previewFrame"
+            src=""
+        ></iframe>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+function abrirVistaPrevia(
+    ruta,
+    titulo
+) {
+
+    document.getElementById(
+        'previewFrame'
+    ).src = ruta;
+
+
+    document.getElementById(
+        'tituloPreview'
+    ).textContent = titulo;
+
+
+    document.getElementById(
+        'modalPreview'
+    ).style.display = 'flex';
+
+}
+
+
+
+function cerrarVistaPrevia() {
+
+    document.getElementById(
+        'modalPreview'
+    ).style.display = 'none';
+
+
+    document.getElementById(
+        'previewFrame'
+    ).src = '';
+
+}
+
+
+
+window.addEventListener(
+    'click',
+    function(event) {
+
+        const modal =
+            document.getElementById(
+                'modalPreview'
+            );
+
+
+        if (event.target === modal) {
+
+            cerrarVistaPrevia();
+
+        }
+
+    }
+);
+
+
+
+document.addEventListener(
+    'keydown',
+    function(event) {
+
+        if (event.key === 'Escape') {
+
+            cerrarVistaPrevia();
+
+        }
+
+    }
+);
+
+
+</script>
 
 
 </body>
