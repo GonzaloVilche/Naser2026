@@ -67,19 +67,9 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
 
         <!-- SECCIÓN INTERMEDIA: BLOQUE DE TEXTO O NOVEDADES -->
         <section class="info-intermedia">
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <small>INFORMACIÓN GENERAL</small>
-            <h2>Título del comunicado o información relevante</h2>
-            <p>
-                Aquí puedes colocar cualquier texto, aviso o instrucción que desees destacar para todo el personal. 
-                Este contenido aparece en el medio del panel y desplaza los sectores hacia abajo.
-            </p>
-=======
->>>>>>> ea2c1fbed3a8bb3f5ecfb572d88edc72adcc8a60
          <small>INFORMACIÓN GENERAL</small>
          <h2>Política de Calidad Ambiente Seguridad y Salud </h2>
-          <p> ofrece soluciones a la industria hidrocarburífera mediante operaciones de Slick Line, Well Testing y Flow Back, impulsando el uso de tecnología y mejores prácticas. </p>
+          <p> Ofrece soluciones a la industria hidrocarburífera mediante operaciones de Slick Line, Well Testing y Flow Back, impulsando el uso de tecnología y mejores prácticas. </p>
            
           <p> Realizamos nuestro trabajo creando una cultura de seguridad generativa, con foco en la protección de la salud y seguridad de las personas, el cuidado del ambiente, la integridad de activos, la calidad de los servicios y el uso eficiente de recursos. Para lograr nuestros objetivos, asumimos los siguientes compromisos:</p>
          <p>
@@ -115,17 +105,8 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
          <p>
          • Comunicar esta política a nuestro personal, clientes y partes interesadas.
          </p>
-<<<<<<< HEAD
         </section>
-=======
-            <small>INFORMACIÓN GENERAL</small>
-            <h2>Título del comunicado o información relevante</h2>
-            <p>
-                Aquí puedes colocar cualquier texto, aviso o instrucción que desees destacar para todo el personal. 
-                Este contenido aparece en el medio del panel y desplaza los sectores hacia abajo.
-            </p>
->>>>>>> ea2c1fbed3a8bb3f5ecfb572d88edc72adcc8a60
-
+       
         </section>
 
             <?php if (!$sectores): ?>
