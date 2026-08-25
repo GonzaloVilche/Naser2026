@@ -58,12 +58,17 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
             <div class="user-chip"><?= htmlspecialchars($_SESSION['nombre']) ?></div>
         </header>
 
-        <section class="hero-panel">
-            <p class="eyebrow">GESTIÓN CENTRALIZADA</p>
-            <h2>Documentación y procedimientos por sector</h2>
-            <p>Ingresá directamente al área que necesites. Los accesos se habilitan según el usuario.</p>
-
-        </section>
+        <section class="info-intermedia info-banner">
+    <div class="info-content">
+        <small>INFORMACIÓN GENERAL</small>
+        <h2>Título de la sección</h2>
+        <p>Escribe aquí una breve descripción o aviso relevante para los usuarios.</p>
+        <a href="#" class="btn-banner">Ver más información <span>→</span></a>
+    </div>
+    <div class="info-image">
+        <img src="ruta-de-tu-imagen.png" alt="Ilustración">
+    </div>
+</section>
 
         <!-- SECCIÓN INTERMEDIA: BLOQUE DE TEXTO O NOVEDADES -->
         <section class="info-intermedia">
@@ -106,7 +111,12 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
          • Comunicar esta política a nuestro personal, clientes y partes interesadas.
          </p>
         </section>
-       
+       <section class="hero-panel">
+            <p class="eyebrow">GESTIÓN CENTRALIZADA</p>
+            <h2>Documentación y procedimientos por sector</h2>
+            <p>Ingresá directamente al área que necesites. Los accesos se habilitan según el usuario.</p>
+
+        </section>
         </section>
 
             <?php if (!$sectores): ?>
