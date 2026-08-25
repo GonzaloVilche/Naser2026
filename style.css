@@ -1936,8 +1936,6 @@ table tbody tr:hover {
         grid-template-columns: 1fr;
     }
 }
-<<<<<<< HEAD
-=======
 /* =========================================================
    BLOQUE DE TEXTO INTERMEDIO (PANEL PRINCIPAL)
 ========================================================= */
@@ -1976,4 +1974,3 @@ table tbody tr:hover {
     line-height: 1.6;
     margin: 0;
 }
->>>>>>> 84d839f953bb3facca936df7f71049cfe6e1691f
