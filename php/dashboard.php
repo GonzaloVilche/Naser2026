@@ -12,11 +12,17 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
     $sectores = $stmt->fetchAll();
 }
 
-// Extensión corregida exactamente a .JPEG
-$imagen_nombre = 'trabajador-slickline.JPEG';
-$ruta_imagen = file_exists(__DIR__ . '/uploads/' . $imagen_nombre) 
-    ? 'uploads/' . $imagen_nombre 
-    : '../uploads/' . $imagen_nombre;
+// 1. Detección automática para la primera imagen
+$img1_nombre = 'trabajador-slickline.JPEG';
+$ruta_img1 = file_exists(__DIR__ . '/uploads/' . $img1_nombre) 
+    ? 'uploads/' . $img1_nombre 
+    : '../uploads/' . $img1_nombre;
+
+// 2. Detección automática para la segunda imagen (Camion-Naser.png)
+$img2_nombre = 'Camion-Naser.png';
+$ruta_img2 = file_exists(__DIR__ . '/uploads/' . $img2_nombre) 
+    ? 'uploads/' . $img2_nombre 
+    : '../uploads/' . $img2_nombre;
 ?>
 <!doctype html>
 <html lang="es">
@@ -64,7 +70,7 @@ $ruta_imagen = file_exists(__DIR__ . '/uploads/' . $imagen_nombre)
             <div class="user-chip"><?= htmlspecialchars($_SESSION['nombre']) ?></div>
         </header>
 
-        <!-- BANNER DE INFORMACIÓN CON IMAGEN INTERACTIVA -->
+        <!-- BANNER DE INFORMACIÓN CON DOS IMÁGENES INTERACTIVAS -->
         <section class="info-intermedia info-banner">
             <div class="info-content">
                 <small>INFORMACIÓN GENERAL</small>
@@ -72,10 +78,22 @@ $ruta_imagen = file_exists(__DIR__ . '/uploads/' . $imagen_nombre)
                 <p>Escribe aquí una breve descripción o aviso relevante para los usuarios.</p>
                 <a href="#" class="btn-banner">Ver más información <span>→</span></a>
             </div>
-            <div class="info-image">
-                <a href="<?= $ruta_imagen ?>" target="_blank" class="img-link">
-                    <img src="<?= $ruta_imagen ?>" alt="Trabajador Slickline">
-                </a>
+            
+            <!-- CONTENEDOR CON AMBAS IMÁGENES -->
+            <div class="info-images-container" style="display: flex; gap: 12px; align-items: center;">
+                <!-- Imagen 1: Trabajador Slickline -->
+                <div class="info-image">
+                    <a href="<?= $ruta_img1 ?>" target="_blank" class="img-link">
+                        <img src="<?= $ruta_img1 ?>" alt="Trabajador Slickline">
+                    </a>
+                </div>
+
+                <!-- Imagen 2: Camión Naser -->
+                <div class="info-image">
+                    <a href="<?= $ruta_img2 ?>" target="_blank" class="img-link">
+                        <img src="<?= $ruta_img2 ?>" alt="Camión Naser">
+                    </a>
+                </div>
             </div>
         </section>
 
