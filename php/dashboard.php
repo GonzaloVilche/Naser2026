@@ -222,6 +222,7 @@ try {
         </div>
 
         <a class="nav-link active" href="dashboard.php">Inicio</a>
+        <a class="nav-link" href="operaciones.php">Operaciones</a>
 
         <?php foreach ($sectores as $sector): ?>
             <a class="nav-link" href="sector.php?sector=<?= urlencode($sector['slug']) ?>">
