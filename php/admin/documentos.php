@@ -14,26 +14,45 @@ if (!is_dir($carpetaUploads)) {
     mkdir($carpetaUploads, 0777, true);
 }
 
+$estadosPermitidos = [
+    'borrador',
+    'revision',
+    'aprobado',
+    'vencido'
+];
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $accion = $_POST['accion'] ?? 'crear';
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ELIMINAR DOCUMENTO
+    |--------------------------------------------------------------------------
+    */
 
     if ($accion === 'eliminar') {
 
         $id = (int)($_POST['id'] ?? 0);
 
         $stmt = $pdo->prepare(
-            'SELECT archivo FROM documentos WHERE id = ?'
+            'SELECT archivo
+             FROM documentos
+             WHERE id = ?'
         );
 
         $stmt->execute([$id]);
+
         $doc = $stmt->fetch();
 
         if ($doc) {
 
             if (!empty($doc['archivo'])) {
 
-                $rutaArchivo = $carpetaUploads . basename($doc['archivo']);
+                $rutaArchivo =
+                    $carpetaUploads
+                    . basename($doc['archivo']);
 
                 if (is_file($rutaArchivo)) {
                     unlink($rutaArchivo);
@@ -41,7 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             $stmt = $pdo->prepare(
-                'DELETE FROM documentos WHERE id = ?'
+                'DELETE FROM documentos
+                 WHERE id = ?'
             );
 
             $stmt->execute([$id]);
@@ -49,16 +69,99 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mensaje = 'Documento eliminado correctamente.';
         }
 
-    } else {
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CAMBIAR ESTADO
+    |--------------------------------------------------------------------------
+    */
+
+    elseif ($accion === 'cambiar_estado') {
+
+        $id = (int)($_POST['id'] ?? 0);
+
+        $estado = $_POST['estado'] ?? 'borrador';
+
+        if (!in_array($estado, $estadosPermitidos, true)) {
+            $estado = 'borrador';
+        }
+
+        $stmt = $pdo->prepare(
+            'UPDATE documentos
+             SET estado = ?,
+                 fecha_actualizacion = CURDATE()
+             WHERE id = ?'
+        );
+
+        $stmt->execute([
+            $estado,
+            $id
+        ]);
+
+        $mensaje = 'Estado actualizado correctamente.';
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CREAR DOCUMENTO
+    |--------------------------------------------------------------------------
+    */
+
+    else {
 
         $titulo = trim($_POST['titulo'] ?? '');
-        $descripcion = trim($_POST['descripcion'] ?? '');
-        $tipo = $_POST['tipo'] ?? 'documentacion';
-        $sectorId = (int)($_POST['sector_id'] ?? 0);
 
-        if (!in_array($tipo, ['documentacion', 'procedimiento'], true)) {
+        $descripcion =
+            trim($_POST['descripcion'] ?? '');
+
+        $tipo =
+            $_POST['tipo']
+            ?? 'documentacion';
+
+        $estado =
+            $_POST['estado']
+            ?? 'borrador';
+
+        $sectorId =
+            (int)($_POST['sector_id'] ?? 0);
+
+
+        if (
+            !in_array(
+                $tipo,
+                [
+                    'documentacion',
+                    'procedimiento'
+                ],
+                true
+            )
+        ) {
+
             $tipo = 'documentacion';
         }
+
+
+        if (
+            !in_array(
+                $estado,
+                $estadosPermitidos,
+                true
+            )
+        ) {
+
+            $estado = 'borrador';
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | VALIDACIONES
+        |--------------------------------------------------------------------------
+        */
 
         if ($titulo === '') {
 
@@ -69,23 +172,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = 'Seleccioná un sector.';
 
         } elseif (
-            !isset($_FILES['archivo']) ||
-            $_FILES['archivo']['error'] !== UPLOAD_ERR_OK
+            !isset($_FILES['archivo'])
+            ||
+            $_FILES['archivo']['error']
+            !== UPLOAD_ERR_OK
         ) {
 
             $error = 'Seleccioná un archivo para cargar.';
         }
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | GUARDAR ARCHIVO
+        |--------------------------------------------------------------------------
+        */
+
         if ($error === '') {
 
-            $nombreOriginal = $_FILES['archivo']['name'];
+            $nombreOriginal =
+                $_FILES['archivo']['name'];
 
-            $extension = strtolower(
-                pathinfo(
-                    $nombreOriginal,
-                    PATHINFO_EXTENSION
-                )
-            );
+            $extension =
+                strtolower(
+                    pathinfo(
+                        $nombreOriginal,
+                        PATHINFO_EXTENSION
+                    )
+                );
 
             $permitidos = [
                 'pdf',
@@ -98,22 +212,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'png'
             ];
 
-            if (!in_array($extension, $permitidos, true)) {
 
-                $error = 'Formato de archivo no permitido.';
+            if (
+                !in_array(
+                    $extension,
+                    $permitidos,
+                    true
+                )
+            ) {
+
+                $error =
+                    'Formato de archivo no permitido.';
 
             } else {
 
-                $nombreSinExtension = pathinfo(
-                    $nombreOriginal,
-                    PATHINFO_FILENAME
-                );
+                $nombreSinExtension =
+                    pathinfo(
+                        $nombreOriginal,
+                        PATHINFO_FILENAME
+                    );
 
-                $nombreSeguro = preg_replace(
-                    '/[^a-zA-Z0-9_-]/',
-                    '_',
-                    $nombreSinExtension
-                );
+                $nombreSeguro =
+                    preg_replace(
+                        '/[^a-zA-Z0-9_-]/',
+                        '_',
+                        $nombreSinExtension
+                    );
 
                 $archivo =
                     time()
@@ -122,7 +246,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     . '.'
                     . $extension;
 
-                $destino = $carpetaUploads . $archivo;
+                $destino =
+                    $carpetaUploads
+                    . $archivo;
+
 
                 if (
                     move_uploaded_file(
@@ -140,6 +267,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             tipo,
                             archivo,
                             activo,
+                            estado,
                             fecha_actualizacion
                         )
                         VALUES
@@ -150,52 +278,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             ?,
                             ?,
                             1,
+                            ?,
                             CURDATE()
                         )'
                     );
+
 
                     $stmt->execute([
                         $sectorId,
                         $titulo,
                         $descripcion,
                         $tipo,
-                        $archivo
+                        $archivo,
+                        $estado
                     ]);
 
-                    $mensaje = 'Documento cargado correctamente.';
+                    $mensaje =
+                        'Documento cargado correctamente.';
 
                 } else {
 
-                    $error = 'No se pudo guardar el archivo.';
+                    $error =
+                        'No se pudo guardar el archivo.';
                 }
             }
         }
     }
 }
 
-$sectores = $pdo->query(
-    'SELECT id, nombre
-     FROM sectores
-     ORDER BY orden, nombre'
-)->fetchAll();
 
-$docs = $pdo->query(
-    'SELECT
-        d.id,
-        d.titulo,
-        d.tipo,
-        d.archivo,
-        d.activo,
-        d.fecha_actualizacion,
-        s.nombre AS sector
+/*
+|--------------------------------------------------------------------------
+| SECTORES
+|--------------------------------------------------------------------------
+*/
 
-     FROM documentos d
+$sectores =
+    $pdo->query(
+        'SELECT id, nombre
+         FROM sectores
+         ORDER BY orden, nombre'
+    )->fetchAll();
 
-     JOIN sectores s
-     ON s.id = d.sector_id
 
-     ORDER BY d.id DESC'
-)->fetchAll();
+/*
+|--------------------------------------------------------------------------
+| DOCUMENTOS
+|--------------------------------------------------------------------------
+*/
+
+$docs =
+    $pdo->query(
+        'SELECT
+            d.id,
+            d.titulo,
+            d.tipo,
+            d.archivo,
+            d.activo,
+            d.estado,
+            d.fecha_actualizacion,
+            s.nombre AS sector
+
+         FROM documentos d
+
+         JOIN sectores s
+         ON s.id = d.sector_id
+
+         ORDER BY d.id DESC'
+    )->fetchAll();
 
 ?>
 
@@ -225,7 +375,9 @@ $docs = $pdo->query(
 
 <body>
 
+
 <main class="standalone">
+
 
     <a
         class="back-link"
@@ -259,7 +411,9 @@ $docs = $pdo->query(
     <?php if ($mensaje): ?>
 
         <div class="alert success">
+
             <?= htmlspecialchars($mensaje) ?>
+
         </div>
 
     <?php endif; ?>
@@ -268,16 +422,22 @@ $docs = $pdo->query(
     <?php if ($error): ?>
 
         <div class="alert error">
+
             <?= htmlspecialchars($error) ?>
+
         </div>
 
     <?php endif; ?>
 
 
+
     <section class="admin-grid">
 
 
+        <!-- CARGAR DOCUMENTO -->
+
         <div class="panel-card">
+
 
             <h2>
                 Cargar archivo
@@ -289,6 +449,7 @@ $docs = $pdo->query(
                 enctype="multipart/form-data"
                 class="form-grid"
             >
+
 
                 <input
                     type="hidden"
@@ -335,11 +496,16 @@ $docs = $pdo->query(
                             Seleccionar
                         </option>
 
-
                         <?php foreach ($sectores as $s): ?>
 
-                            <option value="<?= (int)$s['id'] ?>">
-                                <?= htmlspecialchars($s['nombre']) ?>
+                            <option
+                                value="<?= (int)$s['id'] ?>"
+                            >
+
+                                <?= htmlspecialchars(
+                                    $s['nombre']
+                                ) ?>
+
                             </option>
 
                         <?php endforeach; ?>
@@ -370,6 +536,33 @@ $docs = $pdo->query(
 
                 <label>
 
+                    Estado
+
+                    <select name="estado">
+
+                        <option value="borrador">
+                            Borrador
+                        </option>
+
+                        <option value="revision">
+                            En revisión
+                        </option>
+
+                        <option value="aprobado">
+                            Aprobado
+                        </option>
+
+                        <option value="vencido">
+                            Vencido
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label>
+
                     Archivo
 
                     <input
@@ -386,7 +579,9 @@ $docs = $pdo->query(
                     class="btn primary"
                     type="submit"
                 >
+
                     Guardar documento
+
                 </button>
 
             </form>
@@ -394,7 +589,11 @@ $docs = $pdo->query(
         </div>
 
 
+
+        <!-- DOCUMENTOS CARGADOS -->
+
         <div class="panel-card">
+
 
             <h2>
                 Archivos cargados
@@ -403,17 +602,28 @@ $docs = $pdo->query(
 
             <div class="table-wrap">
 
+
                 <table>
+
 
                     <thead>
 
                         <tr>
+
                             <th>Título</th>
+
                             <th>Sector</th>
+
                             <th>Tipo</th>
+
+                            <th>Estado</th>
+
                             <th>Fecha</th>
+
                             <th>Archivo</th>
-                            <th>Acción</th>
+
+                            <th>Acciones</th>
+
                         </tr>
 
                     </thead>
@@ -426,8 +636,10 @@ $docs = $pdo->query(
 
                         <tr>
 
-                            <td colspan="6">
+                            <td colspan="7">
+
                                 Todavía no hay documentos cargados.
+
                             </td>
 
                         </tr>
@@ -437,49 +649,103 @@ $docs = $pdo->query(
 
                     <?php foreach ($docs as $d): ?>
 
+
                         <?php
 
-                        $extension = strtolower(
-                            pathinfo(
-                                $d['archivo'] ?? '',
-                                PATHINFO_EXTENSION
-                            )
-                        );
+                        $extension =
+                            strtolower(
+                                pathinfo(
+                                    $d['archivo'] ?? '',
+                                    PATHINFO_EXTENSION
+                                )
+                            );
 
                         $rutaArchivo =
                             '../../uploads/'
-                            . rawurlencode($d['archivo'] ?? '');
+                            . rawurlencode(
+                                $d['archivo'] ?? ''
+                            );
 
                         ?>
 
 
                         <tr>
 
-                            <td>
-                                <?= htmlspecialchars($d['titulo']) ?>
-                            </td>
-
 
                             <td>
-                                <?= htmlspecialchars($d['sector']) ?>
-                            </td>
 
-
-                            <td>
                                 <?= htmlspecialchars(
-                                    ucfirst($d['tipo'])
+                                    $d['titulo']
                                 ) ?>
+
                             </td>
 
 
                             <td>
+
+                                <?= htmlspecialchars(
+                                    $d['sector']
+                                ) ?>
+
+                            </td>
+
+
+                            <td>
+
+                                <?= htmlspecialchars(
+                                    ucfirst(
+                                        $d['tipo']
+                                    )
+                                ) ?>
+
+                            </td>
+
+
+                            <td>
+
+                                <span
+                                    class="estado-badge estado-<?= htmlspecialchars(
+                                        $d['estado']
+                                    ) ?>"
+                                >
+
+                                    <?php
+
+                                    if (
+                                        $d['estado']
+                                        === 'revision'
+                                    ) {
+
+                                        echo 'En revisión';
+
+                                    } else {
+
+                                        echo htmlspecialchars(
+                                            ucfirst(
+                                                $d['estado']
+                                            )
+                                        );
+
+                                    }
+
+                                    ?>
+
+                                </span>
+
+                            </td>
+
+
+                            <td>
+
                                 <?= htmlspecialchars(
                                     $d['fecha_actualizacion']
                                 ) ?>
+
                             </td>
 
 
                             <td>
+
 
                                 <?php if (!empty($d['archivo'])): ?>
 
@@ -490,7 +756,12 @@ $docs = $pdo->query(
                                         <?php if (
                                             in_array(
                                                 $extension,
-                                                ['pdf', 'jpg', 'jpeg', 'png'],
+                                                [
+                                                    'pdf',
+                                                    'jpg',
+                                                    'jpeg',
+                                                    'png'
+                                                ],
                                                 true
                                             )
                                         ): ?>
@@ -506,7 +777,9 @@ $docs = $pdo->query(
                                                     ) ?>'
                                                 )"
                                             >
+
                                                 👁 Vista previa
+
                                             </button>
 
                                         <?php endif; ?>
@@ -517,7 +790,9 @@ $docs = $pdo->query(
                                             href="<?= $rutaArchivo ?>"
                                             target="_blank"
                                         >
+
                                             ↗ Abrir
+
                                         </a>
 
 
@@ -530,56 +805,148 @@ $docs = $pdo->query(
 
                                 <?php endif; ?>
 
+
                             </td>
 
 
                             <td>
 
-                                <form
-                                    method="post"
-                                    onsubmit="return confirm('¿Eliminar este documento?');"
-                                >
 
-                                    <input
-                                        type="hidden"
-                                        name="accion"
-                                        value="eliminar"
+                                <div class="document-actions">
+
+
+                                    <!-- CAMBIAR ESTADO -->
+
+                                    <form
+                                        method="post"
+                                        class="estado-form"
                                     >
 
-                                    <input
-                                        type="hidden"
-                                        name="id"
-                                        value="<?= (int)$d['id'] ?>"
+                                        <input
+                                            type="hidden"
+                                            name="accion"
+                                            value="cambiar_estado"
+                                        >
+
+                                        <input
+                                            type="hidden"
+                                            name="id"
+                                            value="<?= (int)$d['id'] ?>"
+                                        >
+
+
+                                        <select
+                                            name="estado"
+                                            onchange="this.form.submit()"
+                                        >
+
+                                            <option
+                                                value="borrador"
+                                                <?= $d['estado'] === 'borrador'
+                                                    ? 'selected'
+                                                    : '' ?>
+                                            >
+                                                Borrador
+                                            </option>
+
+
+                                            <option
+                                                value="revision"
+                                                <?= $d['estado'] === 'revision'
+                                                    ? 'selected'
+                                                    : '' ?>
+                                            >
+                                                En revisión
+                                            </option>
+
+
+                                            <option
+                                                value="aprobado"
+                                                <?= $d['estado'] === 'aprobado'
+                                                    ? 'selected'
+                                                    : '' ?>
+                                            >
+                                                Aprobado
+                                            </option>
+
+
+                                            <option
+                                                value="vencido"
+                                                <?= $d['estado'] === 'vencido'
+                                                    ? 'selected'
+                                                    : '' ?>
+                                            >
+                                                Vencido
+                                            </option>
+
+                                        </select>
+
+                                    </form>
+
+
+                                    <!-- ELIMINAR -->
+
+                                    <form
+                                        method="post"
+                                        onsubmit="return confirm('¿Eliminar este documento?');"
                                     >
 
-                                    <button
-                                        class="btn-delete"
-                                        type="submit"
-                                    >
-                                        🗑 Eliminar
-                                    </button>
+                                        <input
+                                            type="hidden"
+                                            name="accion"
+                                            value="eliminar"
+                                        >
 
-                                </form>
+                                        <input
+                                            type="hidden"
+                                            name="id"
+                                            value="<?= (int)$d['id'] ?>"
+                                        >
+
+
+                                        <button
+                                            class="btn-delete"
+                                            type="submit"
+                                        >
+
+                                            🗑 Eliminar
+
+                                        </button>
+
+                                    </form>
+
+
+                                </div>
+
 
                             </td>
 
+
                         </tr>
+
 
                     <?php endforeach; ?>
 
 
                     </tbody>
 
+
                 </table>
+
 
             </div>
 
         </div>
 
+
     </section>
+
 
 </main>
 
+
+
+<!-- MODAL VISTA PREVIA -->
 
 <div
     id="modalPreview"
@@ -588,19 +955,25 @@ $docs = $pdo->query(
 
     <div class="modal-contenido">
 
+
         <div class="modal-header">
+
 
             <h3 id="tituloPreview">
                 Vista previa
             </h3>
+
 
             <button
                 type="button"
                 class="cerrar-modal"
                 onclick="cerrarVistaPrevia()"
             >
+
                 ✕
+
             </button>
+
 
         </div>
 
@@ -610,14 +983,20 @@ $docs = $pdo->query(
             src=""
         ></iframe>
 
+
     </div>
 
 </div>
 
 
+
 <script>
 
-function abrirVistaPrevia(ruta, titulo) {
+
+function abrirVistaPrevia(
+    ruta,
+    titulo
+) {
 
     document.getElementById(
         'previewFrame'
@@ -674,6 +1053,7 @@ document.addEventListener(
 
     }
 );
+
 
 </script>
 
