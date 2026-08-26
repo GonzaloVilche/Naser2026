@@ -274,7 +274,7 @@ $documentos = $stmt->fetchAll();
 <div id="modalPreview" class="modal-preview">
     <div class="modal-contenido">
         <div class="modal-header">
-            <h3 id="tituloPreview">Vista previa</h3>
+            <h3 id="tituloPreview">Vista Previa</h3>
             <button
                 type="button"
                 class="cerrar-modal"
