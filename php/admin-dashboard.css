@@ -1,0 +1,169 @@
+/* =========================================================
+   NASER 2026 - AJUSTES VISUALES DEL DASHBOARD
+   NO reemplaza style.css
+   Solo complementa el diseño existente.
+========================================================= */
+
+.logo-box-naser {
+    padding: 12px 8px 14px;
+    text-align: center;
+}
+
+.logo-naser {
+    display: block;
+    width: 150px;
+    height: 75px;
+    margin: 0 auto 5px;
+    object-fit: contain;
+}
+
+.logo-box-naser small {
+    display: block;
+    margin-top: 2px;
+    font-size: 9px;
+    letter-spacing: .5px;
+}
+.sidebar-group-title {
+    padding: 8px 12px 6px;
+    color: var(--gris);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.admin-topbar {
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--gris-borde);
+}
+
+.admin-subtitle {
+    margin-top: 4px;
+    color: var(--texto-secundario);
+    font-size: 13px;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.system-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    border: 1px solid var(--gris-borde);
+    border-radius: 999px;
+    background: var(--blanco);
+    color: var(--texto-secundario);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--verde-fuerte);
+    box-shadow: 0 0 0 4px rgba(0,132,61,.10);
+}
+
+.admin-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 26px;
+}
+
+.summary-card {
+    position: relative;
+    min-height: 118px;
+    padding: 20px;
+    overflow: hidden;
+    background: var(--blanco);
+    border: 1px solid var(--gris-borde);
+    border-radius: 12px;
+    box-shadow: var(--sombra-suave);
+}
+
+.summary-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--verde-fuerte);
+}
+
+.summary-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--gris);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+.summary-card strong {
+    display: block;
+    color: var(--texto);
+    font-size: 25px;
+    line-height: 1.1;
+}
+
+.summary-card small {
+    display: block;
+    margin-top: 8px;
+    color: var(--texto-secundario);
+    font-size: 11px;
+}
+
+.info-images-container .info-image {
+    flex: 0 0 auto;
+}
+
+.info-images-container .info-image img {
+    display: block;
+    width: 155px;
+    height: 105px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--gris-borde);
+}
+
+@media (max-width: 1050px) {
+    .admin-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .topbar-right {
+        align-items: flex-end;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 700px) {
+    .admin-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-topbar {
+        align-items: flex-start;
+    }
+
+    .topbar-right {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    .info-images-container {
+        flex-wrap: wrap;
+    }
+
+    .info-images-container .info-image img {
+        width: 135px;
+        height: 95px;
+    }
+}

@@ -2462,5 +2462,5 @@ table tbody tr:hover {
     width: 100%;
     height: 100%;
     object-fit: contain; /* Ajusta la imagen entera dentro del cuadro sin recortar */
-    padding: 4px;        /* Espaciado interno para que respire dentro del recuadro */
+    padding: 4px;        
 }
