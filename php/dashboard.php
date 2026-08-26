@@ -12,15 +12,26 @@ if (($_SESSION['rol'] ?? '') === 'admin') {
     $sectores = $stmt->fetchAll();
 }
 
-$img1_nombre = 'trabajador-slickline.JPEG';
-$ruta_img1 = file_exists(__DIR__ . '/uploads/' . $img1_nombre)
-    ? 'uploads/' . $img1_nombre
-    : '../uploads/' . $img1_nombre;
-
-$img2_nombre = 'Camion-Naser.png';
-$ruta_img2 = file_exists(__DIR__ . '/uploads/' . $img2_nombre)
-    ? 'uploads/' . $img2_nombre
-    : '../uploads/' . $img2_nombre;
+// Configuración de las 4 imágenes
+// Si las tienes dentro de la carpeta 'img/' de tu proyecto:
+$galeria = [
+    [
+        'ruta' => 'img/trabajador-slickline.JPEG',
+        'alt'  => 'Trabajador Slickline'
+    ],
+    [
+        'ruta' => 'img/Camion-Naser.png',
+        'alt'  => 'Camión Naser'
+    ],
+    [
+        'ruta' => 'img/unidad-liviana.png',
+        'alt'  => 'Unidad Liviana'
+    ],
+    [
+        'ruta' => 'img/hidrogrua.jpeg',
+        'alt'  => 'Hidrogrúa'
+    ]
+];
 
 $totalSectores = count($sectores);
 $totalDocumentos = 0;
@@ -49,7 +60,7 @@ try {
     <title>Panel | NASER SGI</title>
     <link rel="stylesheet" href="../style.css">
 
-    <!-- ESTILOS SOLO PARA ESTE DASHBOARD: no necesitás otro CSS -->
+    <!-- ESTILOS EXCLUSIVOS PARA EL DASHBOARD -->
     <style>
         .logo-box.logo-box-naser {
             height: auto !important;
@@ -166,12 +177,21 @@ try {
             font-size: 11px !important;
         }
 
+        /* ESTILOS DE LA GALERÍA DE IMÁGENES */
+        .info-images-container {
+            display: flex !important;
+            gap: 10px !important;
+            align-items: center !important;
+            flex-wrap: wrap !important;
+        }
+
         .info-images-container .info-image img {
-            width: 105px !important;
-            height: 78px !important;
+            width: 90px !important;
+            height: 68px !important;
             object-fit: cover !important;
-            border-radius: 9px !important;
+            border-radius: 8px !important;
             border: 1px solid var(--gris-borde) !important;
+            display: block !important;
         }
 
         @media (max-width: 1050px) {
@@ -270,23 +290,20 @@ try {
         <section class="info-intermedia info-banner">
             <div class="info-content">
                 <small>INFORMACIÓN GENERAL</small>
-                <h2>Título de la sección</h2>
-                <p>Escribe aquí una breve descripción o aviso relevante para los usuarios.</p>
+                <h2>Flotas y Equipamiento Operativo</h2>
+                <p>Monitoreo, estado e información relevante sobre las unidades de campo de Naser SRL.</p>
                 <a href="#" class="btn-banner">Ver más información <span>→</span></a>
             </div>
 
-            <div class="info-images-container" style="display:flex;gap:12px;align-items:center;">
-                <div class="info-image">
-                    <a href="<?= $ruta_img1 ?>" target="_blank" class="img-link">
-                        <img src="<?= $ruta_img1 ?>" alt="Trabajador Slickline">
-                    </a>
-                </div>
-
-                <div class="info-image">
-                    <a href="<?= $ruta_img2 ?>" target="_blank" class="img-link">
-                        <img src="<?= $ruta_img2 ?>" alt="Camión Naser">
-                    </a>
-                </div>
+            <!-- CONTENEDOR DE IMÁGENES -->
+            <div class="info-images-container">
+                <?php foreach ($galeria as $item): ?>
+                    <div class="info-image">
+                        <a href="<?= $item['ruta'] ?>" target="_blank" class="img-link">
+                            <img src="<?= $item['ruta'] ?>" alt="<?= htmlspecialchars($item['alt']) ?>">
+                        </a>
+                    </div>
+                <?php endforeach; ?>
             </div>
         </section>
 
