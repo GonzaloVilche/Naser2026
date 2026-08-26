@@ -1,767 +1,282 @@
 <?php
-
 require __DIR__ . '/../config/auth.php';
 requireAdmin();
-
 require __DIR__ . '/../config/db.php';
 
 $mensaje = '';
 $error = '';
 
-$carpetaUploads = __DIR__ . '/../../uploads/';
+$uploadDir = dirname(__DIR__, 2) . '/uploads/';
 
-if (!is_dir($carpetaUploads)) {
-    mkdir($carpetaUploads, 0777, true);
+if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0775, true);
 }
 
-$estadosPermitidos = [
-    'borrador',
-    'revision',
-    'aprobado',
-    'vencido'
-];
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     $accion = $_POST['accion'] ?? 'crear';
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | ELIMINAR DOCUMENTO
-    |--------------------------------------------------------------------------
-    */
-
     if ($accion === 'eliminar') {
-
         $id = (int)($_POST['id'] ?? 0);
 
-        $stmt = $pdo->prepare(
-            'SELECT archivo
-             FROM documentos
-             WHERE id = ?'
-        );
-
+        $stmt = $pdo->prepare('SELECT archivo FROM documentos WHERE id = ?');
         $stmt->execute([$id]);
-
         $doc = $stmt->fetch();
 
         if ($doc) {
+            $pdo->prepare('DELETE FROM documentos WHERE id = ?')->execute([$id]);
 
-            if (!empty($doc['archivo'])) {
-
-                $rutaArchivo =
-                    $carpetaUploads
-                    . basename($doc['archivo']);
-
-                if (is_file($rutaArchivo)) {
-                    unlink($rutaArchivo);
-                }
+            if (!empty($doc['archivo']) && is_file($uploadDir . $doc['archivo'])) {
+                @unlink($uploadDir . $doc['archivo']);
             }
-
-            $stmt = $pdo->prepare(
-                'DELETE FROM documentos
-                 WHERE id = ?'
-            );
-
-            $stmt->execute([$id]);
 
             $mensaje = 'Documento eliminado correctamente.';
         }
-
     }
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | CAMBIAR ESTADO
-    |--------------------------------------------------------------------------
-    */
-
-    elseif ($accion === 'cambiar_estado') {
-
-        $id = (int)($_POST['id'] ?? 0);
-
-        $estado = $_POST['estado'] ?? 'borrador';
-
-        if (!in_array($estado, $estadosPermitidos, true)) {
-            $estado = 'borrador';
-        }
-
-        $stmt = $pdo->prepare(
-            'UPDATE documentos
-             SET estado = ?,
-                 fecha_actualizacion = CURDATE()
-             WHERE id = ?'
-        );
-
-        $stmt->execute([
-            $estado,
-            $id
-        ]);
-
-        $mensaje = 'Estado actualizado correctamente.';
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | CREAR DOCUMENTO
-    |--------------------------------------------------------------------------
-    */
-
-    else {
-
+    if ($accion === 'crear') {
         $titulo = trim($_POST['titulo'] ?? '');
+        $descripcion = trim($_POST['descripcion'] ?? '');
+        $tipo = $_POST['tipo'] ?? '';
+        $sectorId = (int)($_POST['sector_id'] ?? 0);
 
-        $descripcion =
-            trim($_POST['descripcion'] ?? '');
-
-        $tipo =
-            $_POST['tipo']
-            ?? 'documentacion';
-
-        $estado =
-            $_POST['estado']
-            ?? 'borrador';
-
-        $sectorId =
-            (int)($_POST['sector_id'] ?? 0);
-
-
-        if (
-            !in_array(
-                $tipo,
-                [
-                    'documentacion',
-                    'procedimiento'
-                ],
-                true
-            )
-        ) {
-
-            $tipo = 'documentacion';
-        }
-
-
-        if (
-            !in_array(
-                $estado,
-                $estadosPermitidos,
-                true
-            )
-        ) {
-
-            $estado = 'borrador';
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | VALIDACIONES
-        |--------------------------------------------------------------------------
-        */
-
-        if ($titulo === '') {
-
-            $error = 'Ingresá un título.';
-
-        } elseif ($sectorId <= 0) {
-
-            $error = 'Seleccioná un sector.';
-
-        } elseif (
-            !isset($_FILES['archivo'])
-            ||
-            $_FILES['archivo']['error']
-            !== UPLOAD_ERR_OK
-        ) {
-
-            $error = 'Seleccioná un archivo para cargar.';
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | GUARDAR ARCHIVO
-        |--------------------------------------------------------------------------
-        */
-
-        if ($error === '') {
-
-            $nombreOriginal =
-                $_FILES['archivo']['name'];
-
-            $extension =
-                strtolower(
-                    pathinfo(
-                        $nombreOriginal,
-                        PATHINFO_EXTENSION
-                    )
-                );
+        if ($titulo === '' || $sectorId <= 0 || !in_array($tipo, ['documentacion', 'procedimiento'], true)) {
+            $error = 'Completá título, sector y tipo.';
+        } elseif (empty($_FILES['archivo']['name']) || $_FILES['archivo']['error'] !== UPLOAD_ERR_OK) {
+            $error = 'Seleccioná un archivo válido.';
+        } else {
+            $original = basename($_FILES['archivo']['name']);
+            $extension = strtolower(pathinfo($original, PATHINFO_EXTENSION));
 
             $permitidos = [
-                'pdf',
-                'doc',
-                'docx',
-                'xls',
-                'xlsx',
-                'jpg',
-                'jpeg',
-                'png'
+                'pdf', 'doc', 'docx',
+                'xls', 'xlsx',
+                'ppt', 'pptx',
+                'jpg', 'jpeg', 'png'
             ];
 
-
-            if (
-                !in_array(
-                    $extension,
-                    $permitidos,
-                    true
-                )
-            ) {
-
-                $error =
-                    'Formato de archivo no permitido.';
-
+            if (!in_array($extension, $permitidos, true)) {
+                $error = 'Formato no permitido.';
             } else {
+                $baseArchivo = pathinfo($original, PATHINFO_FILENAME);
+                $baseArchivo = preg_replace('/[^a-zA-Z0-9_-]+/', '_', $baseArchivo);
+                $nombreArchivo = date('Ymd_His') . '_' . $baseArchivo . '.' . $extension;
 
-                $nombreSinExtension =
-                    pathinfo(
-                        $nombreOriginal,
-                        PATHINFO_FILENAME
-                    );
-
-                $nombreSeguro =
-                    preg_replace(
-                        '/[^a-zA-Z0-9_-]/',
-                        '_',
-                        $nombreSinExtension
-                    );
-
-                $archivo =
-                    time()
-                    . '_'
-                    . $nombreSeguro
-                    . '.'
-                    . $extension;
-
-                $destino =
-                    $carpetaUploads
-                    . $archivo;
-
-
-                if (
-                    move_uploaded_file(
-                        $_FILES['archivo']['tmp_name'],
-                        $destino
-                    )
-                ) {
-
+                if (move_uploaded_file($_FILES['archivo']['tmp_name'], $uploadDir . $nombreArchivo)) {
                     $stmt = $pdo->prepare(
                         'INSERT INTO documentos
-                        (
-                            sector_id,
-                            titulo,
-                            descripcion,
-                            tipo,
-                            archivo,
-                            activo,
-                            estado,
-                            fecha_actualizacion
-                        )
-                        VALUES
-                        (
-                            ?,
-                            ?,
-                            ?,
-                            ?,
-                            ?,
-                            1,
-                            ?,
-                            CURDATE()
-                        )'
+                        (sector_id, titulo, descripcion, tipo, archivo, activo, fecha_actualizacion)
+                        VALUES (?, ?, ?, ?, ?, 1, CURDATE())'
                     );
-
 
                     $stmt->execute([
                         $sectorId,
                         $titulo,
                         $descripcion,
                         $tipo,
-                        $archivo,
-                        $estado
+                        $nombreArchivo
                     ]);
 
-                    $mensaje =
-                        'Documento cargado correctamente.';
-
+                    $mensaje = 'Documento cargado correctamente.';
                 } else {
-
-                    $error =
-                        'No se pudo guardar el archivo.';
+                    $error = 'No se pudo guardar el archivo.';
                 }
             }
         }
     }
 }
 
+$sectores = $pdo->query(
+    'SELECT id, nombre
+     FROM sectores
+     ORDER BY orden, nombre'
+)->fetchAll();
 
-/*
-|--------------------------------------------------------------------------
-| SECTORES
-|--------------------------------------------------------------------------
-*/
-
-$sectores =
-    $pdo->query(
-        'SELECT id, nombre
-         FROM sectores
-         ORDER BY orden, nombre'
-    )->fetchAll();
-
-
-/*
-|--------------------------------------------------------------------------
-| DOCUMENTOS
-|--------------------------------------------------------------------------
-*/
-
-$docs =
-    $pdo->query(
-        'SELECT
-            d.id,
-            d.titulo,
-            d.tipo,
-            d.archivo,
-            d.activo,
-            d.estado,
-            d.fecha_actualizacion,
-            s.nombre AS sector
-
-         FROM documentos d
-
-         JOIN sectores s
-         ON s.id = d.sector_id
-
-         ORDER BY d.id DESC'
-    )->fetchAll();
-
+$documentos = $pdo->query(
+    'SELECT
+        d.id,
+        d.titulo,
+        d.descripcion,
+        d.tipo,
+        d.archivo,
+        d.fecha_actualizacion,
+        s.nombre AS sector
+     FROM documentos d
+     INNER JOIN sectores s ON s.id = d.sector_id
+     ORDER BY d.fecha_actualizacion DESC, d.id DESC'
+)->fetchAll();
 ?>
-
 <!doctype html>
-
 <html lang="es">
-
 <head>
-
     <meta charset="utf-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
-
-    <title>
-        Documentos | NASER SGI
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="../../style.css"
-    >
-
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Administrar documentos | NASER SGI</title>
+    <link rel="stylesheet" href="../../style.css">
 </head>
 
 <body>
 
-
 <main class="standalone">
 
-
-    <a
-        class="back-link"
-        href="../dashboard.php"
-    >
-        ← Volver al panel
-    </a>
-
+    <a class="back-link" href="../dashboard.php">← Volver al panel</a>
 
     <div class="section-heading spaced">
-
         <div>
-
-            <p class="eyebrow">
-                ADMINISTRACIÓN
-            </p>
-
-            <h1>
-                Documentos y procedimientos
-            </h1>
-
+            <p class="eyebrow">ADMINISTRACIÓN</p>
+            <h1>Documentos y procedimientos</h1>
             <p class="muted">
-                Subí archivos y asignálos al sector correspondiente.
+                Cargá documentos por sector y administrá los archivos existentes.
             </p>
-
         </div>
-
     </div>
 
-
     <?php if ($mensaje): ?>
-
-        <div class="alert success">
-
-            <?= htmlspecialchars($mensaje) ?>
-
-        </div>
-
+        <div class="alert success"><?= htmlspecialchars($mensaje) ?></div>
     <?php endif; ?>
-
 
     <?php if ($error): ?>
-
-        <div class="alert error">
-
-            <?= htmlspecialchars($error) ?>
-
-        </div>
-
+        <div class="alert error"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
 
+    <div class="admin-grid">
 
+        <section class="panel-card">
 
-    <section class="admin-grid">
+            <h2>Cargar documento</h2>
 
+            <form method="post" enctype="multipart/form-data" class="form-grid">
 
-        <!-- CARGAR DOCUMENTO -->
-
-        <div class="panel-card">
-
-
-            <h2>
-                Cargar archivo
-            </h2>
-
-
-            <form
-                method="post"
-                enctype="multipart/form-data"
-                class="form-grid"
-            >
-
-
-                <input
-                    type="hidden"
-                    name="accion"
-                    value="crear"
-                >
-
+                <input type="hidden" name="accion" value="crear">
 
                 <label>
-
                     Título
-
-                    <input
-                        type="text"
-                        name="titulo"
-                        required
-                    >
-
+                    <input type="text" name="titulo" required>
                 </label>
 
-
                 <label>
-
                     Descripción
-
-                    <textarea
-                        name="descripcion"
-                        rows="4"
-                    ></textarea>
-
+                    <textarea name="descripcion"></textarea>
                 </label>
 
-
                 <label>
-
                     Sector
+                    <select name="sector_id" required>
+                        <option value="">Seleccionar sector</option>
 
-                    <select
-                        name="sector_id"
-                        required
-                    >
-
-                        <option value="">
-                            Seleccionar
-                        </option>
-
-                        <?php foreach ($sectores as $s): ?>
-
-                            <option
-                                value="<?= (int)$s['id'] ?>"
-                            >
-
-                                <?= htmlspecialchars(
-                                    $s['nombre']
-                                ) ?>
-
+                        <?php foreach ($sectores as $sector): ?>
+                            <option value="<?= (int)$sector['id'] ?>">
+                                <?= htmlspecialchars($sector['nombre']) ?>
                             </option>
-
                         <?php endforeach; ?>
 
                     </select>
-
                 </label>
 
-
                 <label>
-
                     Tipo
-
-                    <select name="tipo">
-
-                        <option value="documentacion">
-                            Documentación
-                        </option>
-
-                        <option value="procedimiento">
-                            Procedimiento
-                        </option>
-
+                    <select name="tipo" required>
+                        <option value="documentacion">Documentación</option>
+                        <option value="procedimiento">Procedimiento</option>
                     </select>
-
                 </label>
 
-
                 <label>
-
-                    Estado
-
-                    <select name="estado">
-
-                        <option value="borrador">
-                            Borrador
-                        </option>
-
-                        <option value="revision">
-                            En revisión
-                        </option>
-
-                        <option value="aprobado">
-                            Aprobado
-                        </option>
-
-                        <option value="vencido">
-                            Vencido
-                        </option>
-
-                    </select>
-
-                </label>
-
-
-                <label>
-
                     Archivo
-
                     <input
                         type="file"
                         name="archivo"
-                        accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
+                        accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png"
                         required
                     >
-
                 </label>
 
-
-                <button
-                    class="btn primary"
-                    type="submit"
-                >
-
-                    Guardar documento
-
+                <button type="submit" class="btn primary">
+                    Cargar documento
                 </button>
 
             </form>
 
-        </div>
+        </section>
 
 
+        <section class="panel-card">
 
-        <!-- DOCUMENTOS CARGADOS -->
+            <h2>Documentos cargados</h2>
 
-        <div class="panel-card">
+            <?php if (!$documentos): ?>
 
+                <div class="empty-state">
+                    Todavía no hay documentos cargados.
+                </div>
 
-            <h2>
-                Archivos cargados
-            </h2>
+            <?php else: ?>
 
+                <div class="table-wrap">
 
-            <div class="table-wrap">
+                    <table>
 
-
-                <table>
-
-
-                    <thead>
-
+                        <thead>
                         <tr>
-
                             <th>Título</th>
-
                             <th>Sector</th>
-
                             <th>Tipo</th>
-
-                            <th>Estado</th>
-
                             <th>Fecha</th>
-
                             <th>Archivo</th>
-
                             <th>Acciones</th>
-
                         </tr>
+                        </thead>
 
-                    </thead>
+                        <tbody>
 
+                        <?php foreach ($documentos as $doc): ?>
 
-                    <tbody>
-
-
-                    <?php if (!$docs): ?>
-
-                        <tr>
-
-                            <td colspan="7">
-
-                                Todavía no hay documentos cargados.
-
-                            </td>
-
-                        </tr>
-
-                    <?php endif; ?>
-
-
-                    <?php foreach ($docs as $d): ?>
-
-
-                        <?php
-
-                        $extension =
-                            strtolower(
-                                pathinfo(
-                                    $d['archivo'] ?? '',
-                                    PATHINFO_EXTENSION
-                                )
+                            <?php
+                            $extension = strtolower(
+                                pathinfo($doc['archivo'] ?? '', PATHINFO_EXTENSION)
                             );
 
-                        $rutaArchivo =
-                            '../../uploads/'
-                            . rawurlencode(
-                                $d['archivo'] ?? ''
-                            );
+                            $rutaArchivo =
+                                '../../uploads/' .
+                                rawurlencode($doc['archivo'] ?? '');
+                            ?>
 
-                        ?>
+                            <tr>
 
+                                <td>
+                                    <strong><?= htmlspecialchars($doc['titulo']) ?></strong>
 
-                        <tr>
+                                    <?php if (!empty($doc['descripcion'])): ?>
+                                        <small style="display:block;margin-top:4px;">
+                                            <?= htmlspecialchars($doc['descripcion']) ?>
+                                        </small>
+                                    <?php endif; ?>
+                                </td>
 
+                                <td><?= htmlspecialchars($doc['sector']) ?></td>
 
-                            <td>
+                                <td>
+                                    <span class="badge">
+                                        <?= htmlspecialchars(ucfirst($doc['tipo'])) ?>
+                                    </span>
+                                </td>
 
-                                <?= htmlspecialchars(
-                                    $d['titulo']
-                                ) ?>
+                                <td>
+                                    <?= htmlspecialchars($doc['fecha_actualizacion']) ?>
+                                </td>
 
-                            </td>
+                                <td>
+                                    <?= htmlspecialchars($doc['archivo'] ?? '') ?>
+                                </td>
 
-
-                            <td>
-
-                                <?= htmlspecialchars(
-                                    $d['sector']
-                                ) ?>
-
-                            </td>
-
-
-                            <td>
-
-                                <?= htmlspecialchars(
-                                    ucfirst(
-                                        $d['tipo']
-                                    )
-                                ) ?>
-
-                            </td>
-
-
-                            <td>
-
-                                <span
-                                    class="estado-badge estado-<?= htmlspecialchars(
-                                        $d['estado']
-                                    ) ?>"
-                                >
-
-                                    <?php
-
-                                    if (
-                                        $d['estado']
-                                        === 'revision'
-                                    ) {
-
-                                        echo 'En revisión';
-
-                                    } else {
-
-                                        echo htmlspecialchars(
-                                            ucfirst(
-                                                $d['estado']
-                                            )
-                                        );
-
-                                    }
-
-                                    ?>
-
-                                </span>
-
-                            </td>
-
-
-                            <td>
-
-                                <?= htmlspecialchars(
-                                    $d['fecha_actualizacion']
-                                ) ?>
-
-                            </td>
-
-
-                            <td>
-
-
-                                <?php if (!empty($d['archivo'])): ?>
-
+                                <td>
 
                                     <div class="document-actions">
 
-
                                         <?php if (
+                                            !empty($doc['archivo']) &&
                                             in_array(
                                                 $extension,
-                                                [
-                                                    'pdf',
-                                                    'jpg',
-                                                    'jpeg',
-                                                    'png'
-                                                ],
+                                                ['pdf', 'jpg', 'jpeg', 'png'],
                                                 true
                                             )
                                         ): ?>
@@ -770,294 +285,133 @@ $docs =
                                                 type="button"
                                                 class="btn-preview"
                                                 onclick="abrirVistaPrevia(
-                                                    '<?= $rutaArchivo ?>',
-                                                    '<?= htmlspecialchars(
-                                                        $d['titulo'],
-                                                        ENT_QUOTES
-                                                    ) ?>'
+                                                    '<?= htmlspecialchars($rutaArchivo, ENT_QUOTES) ?>',
+                                                    '<?= htmlspecialchars($doc['titulo'], ENT_QUOTES) ?>'
                                                 )"
                                             >
-
                                                 👁 Vista previa
-
                                             </button>
 
                                         <?php endif; ?>
 
+                                        <?php if (!empty($doc['archivo'])): ?>
 
-                                        <a
-                                            class="btn-open"
-                                            href="<?= $rutaArchivo ?>"
-                                            target="_blank"
+                                            <a
+                                                class="btn-open"
+                                                href="<?= htmlspecialchars($rutaArchivo) ?>"
+                                                target="_blank"
+                                            >
+                                                ↗ Abrir
+                                            </a>
+
+                                        <?php endif; ?>
+
+                                        <form
+                                            method="post"
+                                            style="display:inline"
+                                            onsubmit="return confirm('¿Seguro que querés eliminar este documento?');"
                                         >
 
-                                            ↗ Abrir
+                                            <input
+                                                type="hidden"
+                                                name="accion"
+                                                value="eliminar"
+                                            >
 
-                                        </a>
+                                            <input
+                                                type="hidden"
+                                                name="id"
+                                                value="<?= (int)$doc['id'] ?>"
+                                            >
 
+                                            <button
+                                                type="submit"
+                                                class="btn-delete"
+                                            >
+                                                Eliminar
+                                            </button>
+
+                                        </form>
 
                                     </div>
 
+                                </td>
 
-                                <?php else: ?>
+                            </tr>
 
-                                    Sin archivo
+                        <?php endforeach; ?>
 
-                                <?php endif; ?>
+                        </tbody>
 
+                    </table>
 
-                            </td>
+                </div>
 
+            <?php endif; ?>
 
-                            <td>
+        </section>
 
-
-                                <div class="document-actions">
-
-
-                                    <!-- CAMBIAR ESTADO -->
-
-                                    <form
-                                        method="post"
-                                        class="estado-form"
-                                    >
-
-                                        <input
-                                            type="hidden"
-                                            name="accion"
-                                            value="cambiar_estado"
-                                        >
-
-                                        <input
-                                            type="hidden"
-                                            name="id"
-                                            value="<?= (int)$d['id'] ?>"
-                                        >
-
-
-                                        <select
-                                            name="estado"
-                                            onchange="this.form.submit()"
-                                        >
-
-                                            <option
-                                                value="borrador"
-                                                <?= $d['estado'] === 'borrador'
-                                                    ? 'selected'
-                                                    : '' ?>
-                                            >
-                                                Borrador
-                                            </option>
-
-
-                                            <option
-                                                value="revision"
-                                                <?= $d['estado'] === 'revision'
-                                                    ? 'selected'
-                                                    : '' ?>
-                                            >
-                                                En revisión
-                                            </option>
-
-
-                                            <option
-                                                value="aprobado"
-                                                <?= $d['estado'] === 'aprobado'
-                                                    ? 'selected'
-                                                    : '' ?>
-                                            >
-                                                Aprobado
-                                            </option>
-
-
-                                            <option
-                                                value="vencido"
-                                                <?= $d['estado'] === 'vencido'
-                                                    ? 'selected'
-                                                    : '' ?>
-                                            >
-                                                Vencido
-                                            </option>
-
-                                        </select>
-
-                                    </form>
-
-
-                                    <!-- ELIMINAR -->
-
-                                    <form
-                                        method="post"
-                                        onsubmit="return confirm('¿Eliminar este documento?');"
-                                    >
-
-                                        <input
-                                            type="hidden"
-                                            name="accion"
-                                            value="eliminar"
-                                        >
-
-                                        <input
-                                            type="hidden"
-                                            name="id"
-                                            value="<?= (int)$d['id'] ?>"
-                                        >
-
-
-                                        <button
-                                            class="btn-delete"
-                                            type="submit"
-                                        >
-
-                                            🗑 Eliminar
-
-                                        </button>
-
-                                    </form>
-
-
-                                </div>
-
-
-                            </td>
-
-
-                        </tr>
-
-
-                    <?php endforeach; ?>
-
-
-                    </tbody>
-
-
-                </table>
-
-
-            </div>
-
-        </div>
-
-
-    </section>
-
+    </div>
 
 </main>
 
 
-
-<!-- MODAL VISTA PREVIA -->
-
-<div
-    id="modalPreview"
-    class="modal-preview"
->
+<div id="modalPreview" class="modal-preview">
 
     <div class="modal-contenido">
 
-
         <div class="modal-header">
-
 
             <h3 id="tituloPreview">
                 Vista previa
             </h3>
-
 
             <button
                 type="button"
                 class="cerrar-modal"
                 onclick="cerrarVistaPrevia()"
             >
-
                 ✕
-
             </button>
 
-
         </div>
-
 
         <iframe
             id="previewFrame"
             src=""
         ></iframe>
 
-
     </div>
 
 </div>
 
 
-
 <script>
-
-
-function abrirVistaPrevia(
-    ruta,
-    titulo
-) {
-
-    document.getElementById(
-        'previewFrame'
-    ).src = ruta;
-
-    document.getElementById(
-        'tituloPreview'
-    ).textContent = titulo;
-
-    document.getElementById(
-        'modalPreview'
-    ).style.display = 'flex';
-
+function abrirVistaPrevia(ruta, titulo) {
+    document.getElementById('previewFrame').src = ruta;
+    document.getElementById('tituloPreview').textContent = titulo;
+    document.getElementById('modalPreview').style.display = 'flex';
 }
-
 
 function cerrarVistaPrevia() {
-
-    document.getElementById(
-        'modalPreview'
-    ).style.display = 'none';
-
-    document.getElementById(
-        'previewFrame'
-    ).src = '';
-
+    document.getElementById('modalPreview').style.display = 'none';
+    document.getElementById('previewFrame').src = '';
 }
 
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById('modalPreview');
 
-window.addEventListener(
-    'click',
-    function(event) {
-
-        const modal =
-            document.getElementById(
-                'modalPreview'
-            );
-
-        if (event.target === modal) {
-            cerrarVistaPrevia();
-        }
-
+    if (event.target === modal) {
+        cerrarVistaPrevia();
     }
-);
+});
 
-
-document.addEventListener(
-    'keydown',
-    function(event) {
-
-        if (event.key === 'Escape') {
-            cerrarVistaPrevia();
-        }
-
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        cerrarVistaPrevia();
     }
-);
-
-
+});
 </script>
 
-
 </body>
-
 </html>
