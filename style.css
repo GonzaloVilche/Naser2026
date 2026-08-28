@@ -2811,74 +2811,62 @@ table tbody tr:hover {
     transform: translateY(-1px);
 }
 
+
 /* =========================================================
-   ACCESO SGI - BOTÓN PRINCIPAL
-   ESTILO BLANCO CORPORATIVO NASER
-========================================================= */
+   ACCESO SGI
+   ========================================================= */
 
 .sgi-access {
     width: 100%;
+
     margin-top: 45px;
+
     margin-bottom: 10px;
 }
-<<<<<<< HEAD
 
 .sgi-button {
     position: relative;
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
 
     width: 100%;
+
     min-height: 145px;
 
     padding: 28px 38px;
 
     text-decoration: none;
 
-    /* Fondo blanco */
-    background: var(--blanco);
+    background:
+        linear-gradient(
+            135deg,
+            var(--verde-fuerte),
+            var(--verde-principal)
+        );
 
-    /* Borde corporativo */
-    border: 2px solid var(--gris-borde);
+    border: 2px solid var(--verde-fuerte);
 
     border-radius: 18px;
 
-    color: var(--texto);
+    color: var(--blanco);
 
     box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.08);
+        0 8px 25px rgba(0, 132, 61, 0.18);
 
     overflow: hidden;
 
     transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        border-color .25s ease;
-}
-
-/* Línea decorativa lateral */
-
-.sgi-button::after {
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    top: 0;
-
-    width: 5px;
-    height: 100%;
-
-    background: var(--verde-fuerte);
-
-    border-radius: 18px 0 0 18px;
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease;
 }
 
 
-/* =========================================================
-   EFECTO DE BRILLO
-========================================================= */
+/* Brillo */
 
 .sgi-button::before {
     content: "";
@@ -2895,27 +2883,22 @@ table tbody tr:hover {
         linear-gradient(
             90deg,
             transparent,
-            rgba(255,255,255,.8),
+            rgba(255, 255, 255, 0.25),
             transparent
         );
 
     transform: skewX(-20deg);
 
-    transition: left .7s ease;
+    transition: left 0.7s ease;
 }
-
-
-/* =========================================================
-   HOVER
-========================================================= */
 
 .sgi-button:hover {
     transform: translateY(-4px);
 
-    border-color: var(--verde-fuerte);
+    filter: brightness(1.03);
 
     box-shadow:
-        0 12px 30px rgba(0, 0, 0, 0.12);
+        0 12px 35px rgba(0, 132, 61, 0.25);
 }
 
 .sgi-button:hover::before {
@@ -2924,8 +2907,8 @@ table tbody tr:hover {
 
 
 /* =========================================================
-   ICONO
-========================================================= */
+   ICONO SGI
+   ========================================================= */
 
 .sgi-icon {
     position: relative;
@@ -2938,26 +2921,28 @@ table tbody tr:hover {
     flex-shrink: 0;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    background: var(--verde-fuerte);
+    background: var(--blanco);
 
-    color: var(--blanco);
+    color: var(--verde-fuerte);
 
     border-radius: 50%;
 
-    font-size: 29px;
+    font-size: 30px;
+
     font-weight: 900;
 
     box-shadow:
-        0 5px 15px rgba(0, 132, 61, .20);
+        0 4px 15px rgba(0, 0, 0, 0.12);
 }
 
 
 /* =========================================================
-   TEXTO
-========================================================= */
+   TEXTO SGI
+   ========================================================= */
 
 .sgi-text {
     position: relative;
@@ -2972,9 +2957,9 @@ table tbody tr:hover {
 .sgi-label {
     display: block;
 
-    margin-bottom: 3px;
+    margin-bottom: 2px;
 
-    color: var(--verde-fuerte);
+    color: rgba(255, 255, 255, 0.82);
 
     font-size: 11px;
 
@@ -2986,7 +2971,7 @@ table tbody tr:hover {
 .sgi-text strong {
     display: block;
 
-    color: var(--texto);
+    color: var(--blanco);
 
     font-size: 52px;
 
@@ -3000,19 +2985,19 @@ table tbody tr:hover {
 .sgi-text small {
     display: block;
 
-    margin-top: 8px;
+    margin-top: 7px;
 
-    color: var(--texto-secundario);
+    color: rgba(255, 255, 255, 0.88);
 
     font-size: 13px;
 
-    font-weight: 600;
+    font-weight: 700;
 }
 
 
 /* =========================================================
-   FLECHA
-========================================================= */
+   FLECHA SGI
+   ========================================================= */
 
 .sgi-arrow {
     position: relative;
@@ -3025,10 +3010,11 @@ table tbody tr:hover {
     flex-shrink: 0;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    background: var(--verde-fuerte);
+    background: rgba(0, 85, 43, 0.95);
 
     color: var(--blanco);
 
@@ -3039,8 +3025,8 @@ table tbody tr:hover {
     font-weight: 900;
 
     transition:
-        transform .25s ease,
-        background .25s ease;
+        transform 0.25s ease,
+        background 0.25s ease;
 }
 
 .sgi-button:hover .sgi-arrow {
@@ -3052,12 +3038,93 @@ table tbody tr:hover {
 
 /* =========================================================
    RESPONSIVE
-========================================================= */
+   ========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 1100px) {
 
-    .sgi-access {
-        margin-top: 30px;
+    .sector-grid,
+    .values {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .panel-card {
+        padding: 24px;
+    }
+}
+
+
+@media (max-width: 950px) {
+
+    .php-sidebar {
+        position: relative;
+
+        width: 100%;
+
+        height: auto;
+    }
+
+    .php-content {
+        margin-left: 0;
+    }
+
+    .sidebar {
+        position: relative;
+
+        width: 100%;
+
+        height: auto;
+
+        min-height: auto;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .navbar {
+        width: 100%;
+
+        position: relative;
+
+        right: auto;
+    }
+}
+
+
+@media (max-width: 900px) {
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .documents-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .info-banner {
+        flex-direction: column-reverse;
+
+        text-align: center;
+    }
+
+    .info-image {
+        width: 120px;
+        height: 120px;
+
+        margin-bottom: 10px;
+    }
+
+    .sector-grid,
+    .values {
+        grid-template-columns: 1fr;
     }
 
     .sgi-button {
@@ -3092,6 +3159,95 @@ table tbody tr:hover {
         height: 45px;
 
         font-size: 22px;
+    }
+}
+
+
+@media (max-width: 700px) {
+
+    .php-container,
+    .admin-container {
+        width: min(100% - 24px, 1180px);
+
+        padding-top: 90px;
+    }
+
+    .login-page {
+        padding: 18px;
+    }
+
+    .login-card {
+        padding: 24px;
+    }
+
+    .form-row,
+    .dashboard-grid,
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .panel-header,
+    .admin-header,
+    .topbar {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .php-navbar {
+        height: auto;
+
+        min-height: 70px;
+
+        padding: 12px 4%;
+
+        flex-wrap: wrap;
+    }
+
+    .php-navbar nav {
+        gap: 12px;
+
+        flex-wrap: wrap;
+    }
+
+    .standalone {
+        width: min(100% - 24px, 1180px);
+
+        padding-top: 28px;
+    }
+
+    .document-list .document-card {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .document-actions {
+        width: 100%;
+    }
+
+    .btn-preview,
+    .btn-open,
+    .btn-delete {
+        width: auto;
+    }
+
+    .table-wrap {
+        padding: 6px;
+    }
+
+    .modal-preview {
+        padding: 10px;
+    }
+
+    .modal-contenido {
+        width: 100%;
+
+        height: 95vh;
+    }
+
+    .check-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -3133,90 +3289,20 @@ table tbody tr:hover {
 
         font-size: 19px;
     }
-=======
-/* ==========================================
-   DISEÑO RESPONSIVO Y MENÚ HAMBURGUESA
-   ========================================== */
 
-/* Botón Hamburguesa y Overlay (Ocultos en Escritorio) */
-.mobile-header-bar {
-  display: none;
-  background: #ffffff;
-  padding: 12px 16px;
-  border-bottom: 1px solid #e2e8f0;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  z-index: 99;
-}
+    .hero h1 {
+        font-size: 38px;
+    }
 
-.btn-hamburger {
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #1e3a2b;
-  padding: 4px 8px;
-  border-radius: 6px;
-}
+    .hero p {
+        font-size: 16px;
+    }
 
-.sidebar-overlay {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 100;
-  backdrop-filter: blur(2px);
-}
+    .panel-card {
+        padding: 20px;
+    }
 
-/* Pantallas pequeñas (Celulares y Tablets hasta 768px) */
-@media (max-width: 768px) {
-  .app-shell {
-    flex-direction: column;
-  }
-
-  .mobile-header-bar {
-    display: flex;
-  }
-
-  /* Ocultar la barra lateral fuera de la pantalla */
-  .php-sidebar {
-    position: fixed;
-    top: 0;
-    left: -280px; /* Ancho de la barra */
-    width: 260px;
-    height: 100vh;
-    z-index: 101;
-    transition: left 0.3s ease;
-    box-shadow: 4px 0 15px rgba(0,0,0,0.15);
-  }
-
-  /* Clase que se activa con JavaScript al tocar la hamburguesa */
-  .php-sidebar.active {
-    left: 0;
-  }
-
-  .sidebar-overlay.active {
-    display: block;
-  }
-
-  .php-content {
-    padding: 15px;
-  }
-
-  .document-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .document-actions {
-    width: 100%;
-    justify-content: flex-end;
-  }
->>>>>>> 80477012ae4a4edcb4058589722223577e84fcee
+    .hero-panel {
+        padding: 24px;
+    }
 }
