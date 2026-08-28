@@ -111,10 +111,21 @@ $documentos = $stmt->fetchAll();
 
 <body>
 
+<!-- Overlay para el menú en celulares -->
+<div id="sidebarOverlay" class="sidebar-overlay" onclick="toggleMenu()"></div>
+
 <div class="app-shell">
 
+    <!-- BARRA SUPERIOR PARA CELULARES -->
+    <div class="mobile-header-bar">
+        <div class="brand" style="font-size: 1.1rem; font-weight: bold; color: var(--verde-fuerte);">
+            NASER <span style="font-size: 0.8rem; color: var(--texto-secundario);">SRL</span>
+        </div>
+        <button type="button" class="btn-hamburger" onclick="toggleMenu()">☰</button>
+    </div>
+
     <!-- BARRA LATERAL DE NAVEGACIÓN -->
-    <aside class="php-sidebar">
+    <aside id="mainSidebar" class="php-sidebar">
         <div class="logo-box">
             <div class="brand">NASER <span>SRL</span></div>
             <small>Sistema de Gestión Integrado</small>
@@ -289,6 +300,17 @@ $documentos = $stmt->fetchAll();
 </div>
 
 <script>
+// Desplegable menú móvil
+function toggleMenu() {
+    const sidebar = document.getElementById('mainSidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    if (sidebar && overlay) {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    }
+}
+
+// Vista previa
 function abrirVistaPrevia(ruta, titulo) {
     document.getElementById('previewFrame').src = ruta;
     document.getElementById('tituloPreview').textContent = titulo;
