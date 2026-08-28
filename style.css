@@ -2821,6 +2821,7 @@ table tbody tr:hover {
     margin-top: 45px;
     margin-bottom: 10px;
 }
+<<<<<<< HEAD
 
 .sgi-button {
     position: relative;
@@ -3132,4 +3133,90 @@ table tbody tr:hover {
 
         font-size: 19px;
     }
+=======
+/* ==========================================
+   DISEÑO RESPONSIVO Y MENÚ HAMBURGUESA
+   ========================================== */
+
+/* Botón Hamburguesa y Overlay (Ocultos en Escritorio) */
+.mobile-header-bar {
+  display: none;
+  background: #ffffff;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+
+.btn-hamburger {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #1e3a2b;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  backdrop-filter: blur(2px);
+}
+
+/* Pantallas pequeñas (Celulares y Tablets hasta 768px) */
+@media (max-width: 768px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .mobile-header-bar {
+    display: flex;
+  }
+
+  /* Ocultar la barra lateral fuera de la pantalla */
+  .php-sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px; /* Ancho de la barra */
+    width: 260px;
+    height: 100vh;
+    z-index: 101;
+    transition: left 0.3s ease;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.15);
+  }
+
+  /* Clase que se activa con JavaScript al tocar la hamburguesa */
+  .php-sidebar.active {
+    left: 0;
+  }
+
+  .sidebar-overlay.active {
+    display: block;
+  }
+
+  .php-content {
+    padding: 15px;
+  }
+
+  .document-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .document-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+>>>>>>> 80477012ae4a4edcb4058589722223577e84fcee
 }
