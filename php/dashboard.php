@@ -1018,7 +1018,35 @@ try {
             <?php endif; ?>
 
         </section>
+                        <!-- =================================================
+     ACCESO PRINCIPAL SGI
+================================================== -->
 
+<section class="sgi-access">
+
+    <a href="sgi.php" class="sgi-button">
+
+        <div class="sgi-icon">
+            ✓
+        </div>
+
+        <div class="sgi-text">
+            <span class="sgi-label">SISTEMA DE GESTIÓN</span>
+
+            <strong>SGI</strong>
+
+            <small>
+                Acceder al Sistema de Gestión Integrado
+            </small>
+        </div>
+
+        <div class="sgi-arrow">
+            →
+        </div>
+
+    </a>
+
+</section>
     </main>
 
 </div>
